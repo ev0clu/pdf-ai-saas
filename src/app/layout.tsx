@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-grainy relative min-h-screen antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-grainy relative flex min-h-screen flex-col antialiased`}
       >
         <Navbar />
         {children}
