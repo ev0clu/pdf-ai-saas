@@ -8,7 +8,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="container mx-auto mt-28 flex flex-col px-4">
+    <div className="container mx-auto mt-14 flex flex-col px-4 md:mt-28">
       <main className="flex flex-col items-center gap-5">
         <p className="max-w-4xl text-center text-4xl font-bold tracking-wide md:text-6xl lg:text-7xl">
           Chat with your <span className="text-primary">PDF</span> documents
@@ -24,7 +24,7 @@ export default function Home() {
         </p>
 
         <div>
-          <h1 className="mt-28 text-xl font-bold md:text-2xl lg:text-4xl">
+          <h1 className="mt-14 text-center text-xl font-bold md:mt-28 md:text-2xl lg:text-4xl">
             Just a few steps need to chat
           </h1>
           <div>
