@@ -9,8 +9,8 @@ const planItems = [
     description: "For hobby",
     price: 0,
     features: {
-      uploadLimit: 2,
-      fileSizeLimit: 5,
+      uploadLimit: "2",
+      fileSizeLimit: "5MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: false,
       newFeatures: false,
@@ -21,8 +21,8 @@ const planItems = [
     description: "For professional",
     price: 10,
     features: {
-      uploadLimit: 30,
-      fileSizeLimit: 30,
+      uploadLimit: "30",
+      fileSizeLimit: "30MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: true,
       newFeatures: true,

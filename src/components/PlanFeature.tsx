@@ -3,7 +3,7 @@ import { CircleCheck, CircleMinus } from "lucide-react";
 
 interface PlanFeatureProps {
   isAccess: boolean;
-  value?: number;
+  value?: string;
   text: string;
 }
 
