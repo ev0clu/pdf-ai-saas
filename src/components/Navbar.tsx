@@ -31,7 +31,7 @@ const Navbar = () => {
       {/* Desktop menu */}
       <div className="hidden space-x-1 sm:block">
         <Button asChild variant={"ghost"}>
-          <Link href="/price">Price</Link>
+          <Link href="/pricing">Pricing</Link>
         </Button>
         <Button asChild variant={"ghost"}>
           <Link href="/signin">Sign In</Link>
@@ -79,12 +79,12 @@ const Navbar = () => {
             </li>
             <li className="text-center">
               <Link
-                href="/price"
+                href="/pricing"
                 onClick={() => {
                   setOpen(false);
                 }}
               >
-                Price
+                Pricing
               </Link>
             </li>
           </ul>
