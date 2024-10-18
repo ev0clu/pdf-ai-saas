@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import SignInButton from "./SignInButton";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -29,17 +30,29 @@ const Navbar = () => {
       </Link>
 
       {/* Desktop menu */}
-      <div className="hidden space-x-1 sm:block">
-        <Button asChild variant={"ghost"}>
-          <Link href="/pricing">Pricing</Link>
-        </Button>
-        <Button asChild variant={"ghost"}>
-          <Link href="/signin">Sign In</Link>
-        </Button>
-        <Button asChild variant={"default"}>
-          <Link href="/register">Start for free</Link>
-        </Button>
-      </div>
+      <ul className="hidden flex-row gap-1 sm:flex">
+        <li>
+          <Link
+            href="/pricing"
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "font-extrabold",
+            )}
+          >
+            Pricing
+          </Link>
+        </li>
+        <li>
+          <SignInButton variant={"ghost"} provider="google" text="Sign in" />
+        </li>
+        <li>
+          <SignInButton
+            variant={"default"}
+            provider="google"
+            text="Start for free"
+          />
+        </li>
+      </ul>
 
       {/* Mobile menu */}
       <Sheet open={open} onOpenChange={setOpen}>
@@ -57,25 +70,23 @@ const Navbar = () => {
         <SheetContent side={"right"} className="px-8 py-3">
           <ul className="mt-10 space-y-5 text-lg">
             <li>
-              <Link
-                href="/register"
-                onClick={() => {
-                  setOpen(false);
-                }}
-                className={cn(buttonVariants({ variant: "default" }), "w-full")}
-              >
-                Start for free
-              </Link>
+              <SignInButton
+                variant={"default"}
+                provider="google"
+                text="Start for free"
+                className="w-full text-lg"
+              />
             </li>
             <li className="text-center">
-              <Link
-                href="/signin"
+              <SignInButton
+                variant={"ghost"}
+                provider="google"
+                text="Sign in"
                 onClick={() => {
                   setOpen(false);
                 }}
-              >
-                Sign In
-              </Link>
+                className="text-lg"
+              />
             </li>
             <li className="text-center">
               <Link
@@ -83,6 +94,10 @@ const Navbar = () => {
                 onClick={() => {
                   setOpen(false);
                 }}
+                className={cn(
+                  buttonVariants({ variant: "ghost" }),
+                  "text-lg font-extrabold",
+                )}
               >
                 Pricing
               </Link>
