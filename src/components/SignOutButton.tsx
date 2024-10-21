@@ -1,12 +1,21 @@
-import { signOutAction } from "@/app/actions/action";
+import { signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
+
+interface SignOutButtonProps {
+  text: string;
+}
 
 export default function SignOutButton({
   text,
   ...props
-}: { text: string } & React.ComponentPropsWithRef<typeof Button>) {
+}: SignOutButtonProps & React.ComponentPropsWithRef<typeof Button>) {
   return (
-    <form action={() => signOutAction()}>
+    <form
+      action={async () => {
+        "use server";
+        await signOut({ redirectTo: "/" });
+      }}
+    >
       <Button {...props}>{text}</Button>
     </form>
   );
