@@ -18,7 +18,6 @@ import SignOutButton from "./SignOutButton";
 
 const Header = async () => {
   const session = await auth();
-  console.log(session);
   return (
     <header className="sticky top-0 flex flex-row items-center justify-between border-b border-stone-200 bg-white px-2 py-4 backdrop-blur-lg md:px-20">
       <Link
@@ -43,18 +42,20 @@ const Header = async () => {
           </Link>
         </li>
         <li>
-          <Link
-            href="/dashboard"
-            className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "font-extrabold",
-            )}
-          >
-            Dashboard
-          </Link>
+          {session && (
+            <Link
+              href="/dashboard"
+              className={cn(
+                buttonVariants({ variant: "ghost" }),
+                "font-extrabold",
+              )}
+            >
+              Dashboard
+            </Link>
+          )}
         </li>
         <li>
-          {session?.user ? (
+          {!session ? (
             <SignInButton
               variant={"default"}
               provider="google"
@@ -83,7 +84,7 @@ const Header = async () => {
           <ul className="mt-10 space-y-5 text-lg">
             <li>
               <SheetClose asChild>
-                {session?.user && (
+                {session && (
                   <Link
                     href="/dashboard"
                     className={cn(
@@ -111,7 +112,7 @@ const Header = async () => {
             </li>
             <li>
               <SheetClose asChild>
-                {session?.user ? (
+                {!session ? (
                   <SignInButton
                     variant={"default"}
                     provider="google"
