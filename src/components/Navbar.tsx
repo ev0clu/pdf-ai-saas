@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logoSrc from "../../public/logo.png";
@@ -9,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetTitle,
@@ -17,8 +17,6 @@ import {
 import SignInButton from "./SignInButton";
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
-
   return (
     <nav className="sticky top-0 flex flex-row items-center justify-between border-b border-stone-200 bg-white px-2 py-4 backdrop-blur-lg md:px-20">
       <Link
@@ -55,7 +53,7 @@ const Navbar = () => {
       </ul>
 
       {/* Mobile menu */}
-      <Sheet open={open} onOpenChange={setOpen}>
+      <Sheet>
         <SheetTrigger asChild>
           <Button
             variant="ghost"
@@ -70,37 +68,37 @@ const Navbar = () => {
         <SheetContent side={"right"} className="px-8 py-3">
           <ul className="mt-10 space-y-5 text-lg">
             <li>
-              <SignInButton
-                variant={"default"}
-                provider="google"
-                text="Start for free"
-                className="w-full text-lg"
-              />
+              <SheetClose asChild>
+                <SignInButton
+                  variant={"default"}
+                  provider="google"
+                  text="Start for free"
+                  className="w-full text-lg"
+                />
+              </SheetClose>
             </li>
             <li className="text-center">
-              <SignInButton
-                variant={"ghost"}
-                provider="google"
-                text="Sign in"
-                onClick={() => {
-                  setOpen(false);
-                }}
-                className="text-lg"
-              />
+              <SheetClose asChild>
+                <SignInButton
+                  variant={"ghost"}
+                  provider="google"
+                  text="Sign in"
+                  className="w-full text-lg"
+                />
+              </SheetClose>
             </li>
             <li className="text-center">
-              <Link
-                href="/pricing"
-                onClick={() => {
-                  setOpen(false);
-                }}
-                className={cn(
-                  buttonVariants({ variant: "ghost" }),
-                  "text-lg font-extrabold",
-                )}
-              >
-                Pricing
-              </Link>
+              <SheetClose asChild>
+                <Link
+                  href="/pricing"
+                  className={cn(
+                    buttonVariants({ variant: "ghost" }),
+                    "w-full text-lg font-extrabold",
+                  )}
+                >
+                  Pricing
+                </Link>
+              </SheetClose>
             </li>
           </ul>
         </SheetContent>
