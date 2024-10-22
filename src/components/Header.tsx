@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
 import logoSrc from "../../public/logo.png";
-import { Menu as MenuIcon } from "lucide-react";
+import { CircleUserRound, Menu as MenuIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -14,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SignInButton from "./SignInButton";
+import ProfileButton from "./ProfileButton";
 import SignOutButton from "./SignOutButton";
 
 const Header = async () => {
@@ -62,7 +63,11 @@ const Header = async () => {
               text="Sign in"
             />
           ) : (
-            <SignOutButton variant={"default"} text="Sign out" />
+            <ProfileButton
+              profileImgSrc={session.user?.image}
+              name={session.user?.name}
+              email={session.user?.email}
+            />
           )}
         </li>
       </ul>
@@ -81,7 +86,41 @@ const Header = async () => {
         <SheetTitle className="sr-only"></SheetTitle>
         <SheetDescription className="sr-only"></SheetDescription>
         <SheetContent side={"right"} className="px-8 py-3">
-          <ul className="mt-10 space-y-5 text-lg">
+          {/* Profile informaiton */}
+          {session && (
+            <>
+              <div className="mt-10 flex w-full flex-row items-center gap-3">
+                {session.user?.image ? (
+                  <span className="h-[35px] w-[35px]">
+                    <Image
+                      src={session.user.image}
+                      alt="Google profile image"
+                      width={35}
+                      height={35}
+                      className="rounded-full"
+                    />
+                  </span>
+                ) : (
+                  <CircleUserRound
+                    strokeWidth={1}
+                    className="h-[35px] w-[35px] rounded-full hover:bg-primary-foreground hover:text-primary"
+                  />
+                )}
+                <div>
+                  <div className="text-sm font-semibold text-muted-foreground">
+                    {session.user?.name}
+                  </div>
+                  <div className="text-sm font-normal text-muted-foreground">
+                    {session.user?.email}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 h-[1px] w-full bg-gray-200"></div>
+            </>
+          )}
+
+          {/* Menu */}
+          <ul className="mt-5 space-y-5 text-lg">
             <li>
               <SheetClose asChild>
                 {session && (
