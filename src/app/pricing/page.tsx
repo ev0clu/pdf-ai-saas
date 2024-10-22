@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import PlanFeature from "@/components/PlanFeature";
-import { Button } from "@/components/ui/button";
+import SignInButton from "@/components/SignInButton";
 
 const planItems = [
   {
@@ -85,13 +84,12 @@ const Pricing = () => {
                 text="Customer support"
               />
               <div className="!mt-5 w-full">
-                <Button
-                  asChild
+                <SignInButton
                   variant={item.plan === "Free" ? "outline" : "default"}
+                  provider="google"
+                  text="Free trial"
                   className="w-full"
-                >
-                  <Link href="/register">Free trial</Link>
-                </Button>
+                />
               </div>
             </div>
           );
