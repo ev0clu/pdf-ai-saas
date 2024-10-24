@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} bg-grainy relative flex min-h-screen flex-col antialiased`}
       >
         <Header />
-        <div className="container mx-auto mt-14 flex flex-1 flex-col px-4 md:mt-28">
+        <div className="container mx-auto mt-14 flex flex-1 flex-col justify-center px-4 md:mt-28">
           <main className="flex flex-col items-center gap-5">{children}</main>
         </div>
         <Footer />
