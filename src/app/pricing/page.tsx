@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import PlanFeature from "@/components/PlanFeature";
+import PlanFeature from "@/app/pricing/_components/PlanFeature";
 import SignInButton from "@/components/SignInButton";
 
 const planItems = [
