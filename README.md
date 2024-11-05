@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **PDF AI SaaS App**
 
-## Getting Started
+A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI, LangChain, Stripe and more. The app allows users to upload any PDF document and search for specific information inside this document. Only authenticated users can use the platform. There are 2 options: Free plan with limited usage and Pro plan to give more features into the user.
 
-First, run the development server:
+### Demo: [Link]()
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Allow user to log in to the platform
+- Allow user to upload any PDF document and search for any content inside this
+- Intuitive Drag n&apos; Drop Uploads
+- Beautiful And Highly Functional PDF Viewer
+- 100% written in TypeScript
+- OpeanAI text embedding model has been used
+- LangChain use to integrate LLM into the app
+- Pinecone Vector Database has been used to store embeds data into vector space
+- Stripe payment is used with webhook for payment in order to retrive information about the status of the payment
+- Next.js framework is used
+- Tailwind CSS is used with Shadcn UI component library to built beautiful design
+- Prisma ORM is used to communicate with database
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to run from local repository
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository
+2. Run `npm install` command in your terminal
+3. Generate auth secret, which automatically create .env.local file for environment variables:
+   `npx auth secret`
+4. Set up Google OAuth: [Google](https://www.youtube.com/watch?v=ot9yuKg15iA&t=210s)
+5. Add environment variables into the .env.local file:<br>
+   `AUTH_SECRET="<YOUR-SECRET>"` <--Already exist due to **step 3**<br>
+   `AUTH_GOOGLE_ID="<YOUR-GOOGLE-ID>"`<br>
+   `AUTH_GOOGLE_SECRET="<YOUR-GOOGLE-SECRET>"`<br>
+   `DATABASE_URL="<YOUR-DATABASE-URL>"`<br>
+   `UPLOADTHING_TOKEN="<YOUR-UPLOADTHING-TOKEN>"`
+6. Run `npm run prisma:generate` in order to apply prisma schema
+7. Run `npm run prisma:push` to push db to MongoDB
+8. Run `npm run dev` command in your terminal
+9. Server running at `http://localhost:3000/`
 
-## Learn More
+### Useful links and informations
 
-To learn more about Next.js, take a look at the following resources:
+- Prisma **env.local** handling:
+  - [Stackoverflow](https://stackoverflow.com/questions/70491569/how-to-set-environment-variables-with-prisma-nextjs-and-vercel)
+- Prisma and MongoDB edge compatibility:
+  - [Auth.js](https://authjs.dev/guides/edge-compatibility)
+- Auth.js code example:
+  - [GitHub](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/nextjs)
+- Google Provider config page:
+  - [Google](https://console.developers.google.com/apis/credentials)
+  - [Youtube](https://www.youtube.com/watch?v=ot9yuKg15iA&t=210s)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Dependencies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [React](https://react.dev/)
+- [React DOM](https://www.npmjs.com/package/react-dom)
+- [Lucide Icons](https://lucide.dev/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview)
+- [Sharp Image optimalization](https://www.npmjs.com/package/sharp)
+- [Next.js](https://nextjs.org/)
+- [Auth.js](https://authjs.dev/)
 
-## Deploy on Vercel
+### Layout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![layout-1 picture](https://github.com/ev0clu/pdf-ai-saas/blob/main/layout-1.png?raw=true)<br>
