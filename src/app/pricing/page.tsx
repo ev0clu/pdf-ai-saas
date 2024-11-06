@@ -9,7 +9,7 @@ const planItems = [
     price: 0,
     features: {
       uploadLimit: "2",
-      fileSizeLimit: "5MB",
+      fileSizeLimit: "4MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: false,
       newFeatures: false,
@@ -21,7 +21,7 @@ const planItems = [
     price: 10,
     features: {
       uploadLimit: "30",
-      fileSizeLimit: "30MB",
+      fileSizeLimit: "16MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: true,
       newFeatures: true,
