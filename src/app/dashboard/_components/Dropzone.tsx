@@ -1,6 +1,6 @@
 "use client";
 
-import { File, FileUp } from "lucide-react";
+import { CloudUpload, File } from "lucide-react";
 import { useCallback } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
@@ -31,7 +31,7 @@ const Dropzone = () => {
         className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-rose-500/50 bg-rose-50/50 p-10 text-center text-sm hover:cursor-pointer hover:border-rose-500 hover:bg-rose-50"
       >
         <input {...getInputProps()} />
-        <FileUp className="text-muted-foreground" />
+        <CloudUpload className="text-muted-foreground" />
         {isDragActive ? (
           <p>Drop the PDF here ...</p>
         ) : (
