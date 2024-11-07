@@ -13,6 +13,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  plan          Plan      @default(FREE)
   accounts      Account[]
   sessions      Session[]
 
@@ -60,4 +61,9 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum Plan {
+  FREE
+  PRO
 }
