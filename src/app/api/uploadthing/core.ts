@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import type { UploadedFileData } from "uploadthing/types";
+import { prisma } from "../../../../prisma/prisma";
 
 const f = createUploadthing();
 
@@ -9,10 +10,11 @@ const middleware = async () => {
   const session = await auth();
 
   // If you throw, the user will not be able to upload
-  if (!session?.user) throw new UploadThingError("Unauthorized");
+  if (!session?.user || !session.user.id)
+    throw new UploadThingError("Unauthorized");
 
   // Whatever is returned here is accessible in onUploadComplete as `metadata`
-  return { userEmail: session.user.email };
+  return { userId: session.user.id };
 };
 
 const onUploadComplete = async ({
@@ -24,10 +26,19 @@ const onUploadComplete = async ({
 }) => {
   // This code RUNS ON YOUR SERVER after upload
   //console.log("Upload complete for userEmail:", metadata.userEmail);
-  console.log("file url", file);
+
+  await prisma.document.create({
+    data: {
+      userId: metadata.userId,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      url: file.url,
+    },
+  });
 
   // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-  return { uploadedBy: metadata.userEmail };
+  return { docUrl: file.url };
 };
 
 // FileRouter for your app, can contain multiple FileRoutes
