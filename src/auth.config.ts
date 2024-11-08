@@ -13,24 +13,27 @@ export default {
       return true;
     },
     async jwt({ token, trigger, session, account, user }) {
-      if (trigger === "update") token.name = session.user.name;
+      if (trigger === "update") {
+        token.user.plan = session.user.plan;
+      }
       if (account?.provider === "google") {
         return {
           ...token,
           accessToken: account.access_token,
           user: {
             ...token.user,
-            plan: user.plan,
+            id: user.id ?? "",
+            plan: user.plan ?? "FREE",
           },
         };
       }
       return token;
     },
     async session({ session, token }) {
-      if (token?.accessToken && typeof token?.accessToken === "string") {
-        session.accessToken = token.accessToken;
-        session.user.plan = token.user.plan;
-      }
+      session.accessToken = token.accessToken;
+      session.user.plan = token.user.plan;
+      session.user.id = token.user.id;
+
       return session;
     },
   },
@@ -52,6 +55,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     accessToken?: string;
     user: {
+      id: string;
       plan: "FREE" | "PRO";
     };
   }
