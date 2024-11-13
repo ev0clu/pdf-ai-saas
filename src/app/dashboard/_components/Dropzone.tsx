@@ -1,16 +1,71 @@
 "use client";
 
-import { CloudUpload, File } from "lucide-react";
+import { useUploadThing } from "@/lib/uploadthing";
+import { useRouter } from "next/navigation";
+import { CloudUpload, File, Plus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useCallback } from "react";
-import { FileRejection, useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
+import type { FileRejection } from "react-dropzone";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+let toastId: string | number | undefined = undefined;
 
 const Dropzone = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  /*const mutation = useMutation({
+    mutationFn: (files: File[]) =>
+      fetch("/api/uploadthing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+        body: JSON.stringify(files),
+      }),
+    onSuccess: () => {
+      // Invalidate and refetch
+      console.log();
+    },
+  });*/
+
+  const { startUpload, isUploading } = useUploadThing(
+    session?.user.plan === "FREE" ? "freePlanPdfUpload" : "proPlanPdfUpload",
+    {
+      onClientUploadComplete: (res) => {
+        toast.dismiss(toastId);
+        router.push(`/dashboard/${res[0].serverData.docId}`);
+      },
+      onUploadError: () => {
+        toast.error("error occurred while uploading", { id: toastId });
+      },
+      onUploadBegin: () => {
+        toastId = toast.loading("Uploading...", { id: toastId });
+      },
+    },
+  );
+
   const onDropRejected = useCallback((rejectedFiles: FileRejection[]) => {
     toast.error(
       `${rejectedFiles[0].file.type.split("/")[1].toUpperCase()} does not supported`,
     );
   }, []);
+
+  const onDropAccepted = useCallback(
+    (files: File[]) => {
+      startUpload(files);
+    },
+    [startUpload],
+  );
 
   const onError = (error: Error) => {
     toast.error(error.message);
@@ -20,37 +75,64 @@ const Dropzone = () => {
     useDropzone({
       onDropRejected,
       onError,
+      onDropAccepted,
       accept: { "application/pdf": [".pdf"] },
       multiple: false,
     });
 
   return (
-    <div className="flex h-52 w-full items-center justify-center rounded-lg bg-white p-10 shadow-lg md:h-60 md:w-96">
-      <div
-        {...getRootProps()}
-        className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-rose-500/50 bg-rose-50/50 p-10 text-center text-sm hover:cursor-pointer hover:border-rose-500 hover:bg-rose-50"
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="default">
+          <Plus /> Add PDF
+        </Button>
+      </DialogTrigger>
+      <DialogTitle className="hidden"></DialogTitle>
+      <DialogDescription className="hidden"></DialogDescription>
+      <DialogContent
+        aria-describedby="dropzone"
+        className={cn(
+          "flex h-52 w-full items-center justify-center rounded-lg bg-white p-10 shadow-lg md:h-60 md:w-96",
+          {
+            "bg-stone-200": isUploading,
+          },
+        )}
       >
-        <input {...getInputProps()} />
-        <CloudUpload className="text-muted-foreground" />
-        {isDragActive ? (
-          <p>Drop the PDF here ...</p>
-        ) : (
-          <p>
-            <span className="font-semibold">Click to select PDF,</span>
-            <span className="text-muted-foreground">
-              {" "}
-              or Drag &apos;n drop here
-            </span>
-          </p>
-        )}
-        {acceptedFiles && acceptedFiles[0] && (
-          <div className="flex flex-row gap-2 rounded border border-stone-200 bg-white p-2 font-light backdrop-blur-lg">
-            <File className="h-5 w-5 text-muted-foreground" />
-            <p className="w-40 truncate">{acceptedFiles[0].name}</p>
-          </div>
-        )}
-      </div>
-    </div>
+        <div
+          {...getRootProps()}
+          className={cn(
+            "flex h-full w-full flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-rose-500/50 bg-rose-50/50 p-10 text-center text-sm hover:cursor-pointer hover:border-rose-500 hover:bg-rose-50",
+            {
+              "pointer-events-none border-stone-500 bg-stone-200": isUploading,
+            },
+          )}
+        >
+          <input
+            {...getInputProps({
+              disabled: isUploading,
+            })}
+          />
+          <CloudUpload className="text-muted-foreground" />
+          {isDragActive ? (
+            <p>Drop the PDF here ...</p>
+          ) : (
+            <p>
+              <span className="font-semibold">Click to select PDF,</span>
+              <span className="text-muted-foreground">
+                {" "}
+                or Drag &apos;n drop here
+              </span>
+            </p>
+          )}
+          {acceptedFiles && acceptedFiles[0] && (
+            <div className="flex flex-row gap-2 rounded border border-stone-200 bg-white p-2 font-light backdrop-blur-lg">
+              <File className="h-5 w-5 text-muted-foreground" />
+              <p className="w-40 truncate">{acceptedFiles[0].name}</p>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
