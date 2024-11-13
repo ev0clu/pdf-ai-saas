@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:migrate": "dotenv -e .env.local -- prisma migrate dev",
-    "prisma:push": "dotenv -e .env.local -- prisma db push",
-    "prisma:generate": "dotenv -e .env.local -- prisma generate"
+    "prisma:migrate": "dotenv -e .env -- prisma migrate dev",
+    "prisma:push": "dotenv -e .env -- prisma db push",
+    "prisma:generate": "dotenv -e .env -- prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
