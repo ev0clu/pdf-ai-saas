@@ -36,10 +36,8 @@ export default function RootLayout({
         <SessionProvider>
           <TanstackQueryProvider>
             <Header />
-            <div className="container mx-auto mt-14 flex flex-1 flex-col justify-center px-4 md:mt-28">
-              <main className="flex flex-col items-center gap-5">
-                {children}
-              </main>
+            <div className="container mx-auto mt-14 flex flex-1 flex-col px-4 md:mt-28">
+              <main className="flex flex-col gap-5">{children}</main>
             </div>
             <Footer />
             <Toaster />

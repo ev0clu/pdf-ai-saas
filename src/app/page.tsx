@@ -8,7 +8,7 @@ import {
 
 export default function Home() {
   return (
-    <>
+    <div className="mx-auto">
       <p className="max-w-4xl text-center text-4xl font-bold tracking-wide md:text-6xl lg:text-7xl">
         Chat with your <span className="text-primary">PDF</span> documents
       </p>
@@ -58,6 +58,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

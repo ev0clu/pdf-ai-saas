@@ -31,7 +31,7 @@ const planItems = [
 
 const Pricing = () => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="mx-auto">
       <h1 className="mb-7 text-center text-5xl font-bold md:text-7xl">
         Pricing
       </h1>
