@@ -32,9 +32,7 @@ const planItems = [
 const Pricing = () => {
   return (
     <div className="mx-auto">
-      <h1 className="mb-7 text-center text-5xl font-bold md:text-7xl">
-        Pricing
-      </h1>
+      <h1 className="mb-7 text-center text-5xl md:text-7xl">Pricing</h1>
       <p className="mb-10 max-w-prose text-center text-muted-foreground md:mb-20 md:text-lg">
         Start free, chat with any document and pay as you go
       </p>

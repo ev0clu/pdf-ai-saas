@@ -23,7 +23,7 @@ export default function Home() {
       </p>
 
       <div>
-        <h1 className="mt-14 text-center text-xl font-bold md:mt-28 md:text-2xl lg:text-4xl">
+        <h1 className="mt-14 text-center md:mt-28">
           Just a few steps need to chat
         </h1>
         <div>
