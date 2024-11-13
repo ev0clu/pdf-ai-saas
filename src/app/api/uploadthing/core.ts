@@ -27,7 +27,7 @@ const onUploadComplete = async ({
   // This code RUNS ON YOUR SERVER after upload
   //console.log("Upload complete for userEmail:", metadata.userEmail);
 
-  await prisma.document.create({
+  const document = await prisma.document.create({
     data: {
       userId: metadata.userId,
       name: file.name,
@@ -38,7 +38,7 @@ const onUploadComplete = async ({
   });
 
   // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-  return { docUrl: file.url };
+  return { docUrl: file.url, docId: document.id };
 };
 
 // FileRouter for your app, can contain multiple FileRoutes
