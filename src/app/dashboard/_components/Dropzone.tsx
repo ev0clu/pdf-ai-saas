@@ -12,6 +12,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -23,20 +24,6 @@ let toastId: string | number | undefined = undefined;
 const Dropzone = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  /*const mutation = useMutation({
-    mutationFn: (files: File[]) =>
-      fetch("/api/uploadthing", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-        body: JSON.stringify(files),
-      }),
-    onSuccess: () => {
-      // Invalidate and refetch
-      console.log();
-    },
-  });*/
 
   const { startUpload, isUploading } = useUploadThing(
     session?.user.plan === "FREE" ? "freePlanPdfUpload" : "proPlanPdfUpload",
@@ -87,8 +74,6 @@ const Dropzone = () => {
           <Plus /> Add PDF
         </Button>
       </DialogTrigger>
-      <DialogTitle className="hidden"></DialogTitle>
-      <DialogDescription className="hidden"></DialogDescription>
       <DialogContent
         aria-describedby="dropzone"
         className={cn(
@@ -98,6 +83,10 @@ const Dropzone = () => {
           },
         )}
       >
+        <DialogHeader className="hidden">
+          <DialogTitle className="hidden"></DialogTitle>
+          <DialogDescription className="hidden"></DialogDescription>
+        </DialogHeader>
         <div
           {...getRootProps()}
           className={cn(
