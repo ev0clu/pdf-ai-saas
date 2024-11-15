@@ -2,7 +2,7 @@
 
 import { Loader } from "@/components/Loader";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { DocumentPOSTresponse } from "@/types/document";
+import type { AllDocumentResponse } from "@/types/document";
 import type { Document as PdfDocument } from "@/types/document";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -46,7 +46,7 @@ const MyFiles = () => {
         },
       });
 
-      const result = (await response.json()) as DocumentPOSTresponse;
+      const result = (await response.json()) as AllDocumentResponse;
 
       return result.documents;
     },

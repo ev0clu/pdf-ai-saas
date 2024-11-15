@@ -9,7 +9,12 @@ export type Document = {
   updatedAt: Date;
 };
 
-export type DocumentPOSTresponse = {
+export type DocumentResponse = {
+  document: Document;
+  message: string;
+};
+
+export type AllDocumentResponse = {
   documents: Document[];
   message: string;
 };
