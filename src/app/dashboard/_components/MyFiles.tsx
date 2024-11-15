@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useState } from "react";
+import Link from "next/link";
 
 let toastId: string | number | undefined = undefined;
 
@@ -83,59 +84,61 @@ const MyFiles = () => {
           key={document.id}
           className="m-auto w-60 rounded-md bg-white p-4 shadow-lg hover:cursor-pointer hover:bg-white/50"
         >
-          <TooltipProvider delayDuration={300}>
-            <Tooltip>
-              <TooltipTrigger className="w-40 truncate">
-                {document.name}
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{document.name}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <Separator className="mb-2 mt-1" />
-
-          <p className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
-            <span>
-              {format(new Date(document.createdAt), "HH:mm:ss, MM/dd/yyyy")}
-            </span>
-
+          <Link href={`/dashboard/${document.id}`}>
             <TooltipProvider delayDuration={300}>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className="h-7 w-7 rounded-sm p-1 hover:bg-primary-foreground hover:text-primary"
-                    onClick={() => setIsModalOpen(true)}
-                  >
-                    <Trash2 className="text-primary" />
-                  </Button>
+                <TooltipTrigger className="w-40 truncate">
+                  {document.name}
                 </TooltipTrigger>
-                <TooltipContent>Delete</TooltipContent>
+                <TooltipContent>
+                  <p>{document.name}</p>
+                </TooltipContent>
               </Tooltip>
-
-              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{document.name}</DialogTitle>
-                    <DialogDescription>
-                      Are you sure you want to delete this document? You
-                      can&apos;t undo this.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button
-                      type="submit"
-                      onClick={() => mutation.mutate(document.id)}
-                    >
-                      Confirm
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
             </TooltipProvider>
-          </p>
+
+            <Separator className="mb-2 mt-1" />
+
+            <p className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
+              <span>
+                {format(new Date(document.createdAt), "HH:mm:ss, MM/dd/yyyy")}
+              </span>
+
+              <TooltipProvider delayDuration={300}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className="h-7 w-7 rounded-sm p-1 hover:bg-primary-foreground hover:text-primary"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <Trash2 className="text-primary" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Delete</TooltipContent>
+                </Tooltip>
+
+                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{document.name}</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to delete this document? You
+                        can&apos;t undo this.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="submit"
+                        onClick={() => mutation.mutate(document.id)}
+                      >
+                        Confirm
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </TooltipProvider>
+            </p>
+          </Link>
         </li>
       ))}
     </ul>
