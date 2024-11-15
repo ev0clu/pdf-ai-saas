@@ -3,10 +3,10 @@ import { prisma } from "../../../../../prisma/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { fileid: string } },
+  { params }: { params: Promise<{ fileid: string }> },
 ) {
   try {
-    const fileId = params.fileid;
+    const fileId = (await params).fileid;
 
     const documents = await prisma.document.delete({
       where: {
