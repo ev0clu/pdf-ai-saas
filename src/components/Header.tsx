@@ -20,7 +20,7 @@ import SignOutButton from "./SignOutButton";
 const Header = async () => {
   const session = await auth();
   return (
-    <header className="sticky top-0 flex flex-row items-center justify-between border-b border-stone-200 bg-white px-2 py-4 backdrop-blur-lg md:px-20">
+    <header className="sticky top-0 z-50 flex flex-row items-center justify-between border-b border-stone-200 bg-white px-2 py-4 backdrop-blur-lg md:px-20">
       <Link
         href="/"
         className="flex flex-row items-center justify-center gap-2"
