@@ -40,7 +40,20 @@ export default function RootLayout({
               <main className="flex flex-col gap-5">{children}</main>
             </div>
             <Footer />
-            <Toaster />
+            <Toaster
+              toastOptions={{
+                unstyled: true,
+                classNames: {
+                  loading:
+                    "text-amber-700 w-[356px] font-normal bg-white text-sm border-[1px] rounded-lg flex flex-row px-4 py-2 justify-start items-center gap-2",
+                  error:
+                    "text-rose-700 w-[356px] font-normal bg-white text-sm border-[1px] rounded-lg flex flex-row px-4 py-2 justify-start items-center gap-2",
+                  success:
+                    "text-green-700 w-[356px] font-normal bg-white text-sm border-[1px] rounded-lg flex flex-row px-4 py-2 justify-start items-center gap-2",
+                  info: "text-blue-700 w-[356px] bg-white font-normal text-sm border-[1px] rounded-lg flex flex-row px-4 py-2 justify-start items-center gap-2",
+                },
+              }}
+            />
           </TanstackQueryProvider>
         </SessionProvider>
       </body>
