@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader } from "@/components/Loader";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { DocumentPOSTresponse } from "@/types/document";
 import type { Document as PdfDocument } from "@/types/document";
 import { Trash2 } from "lucide-react";
@@ -14,8 +14,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { useState } from "react";
+
+let toastId: string | number | undefined = undefined;
 
 const MyFiles = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
+
   const {
     data: documents,
     isPending,
@@ -33,6 +48,26 @@ const MyFiles = () => {
       const result = (await response.json()) as DocumentPOSTresponse;
 
       return result.documents;
+    },
+  });
+
+  const mutation = useMutation({
+    mutationFn: (fileId: string) =>
+      fetch(`/api/file/${fileId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+      }),
+    onMutate: () => {
+      toastId = toast.loading("Delete...");
+    },
+    onSuccess: async () => {
+      setIsModalOpen(false);
+      toast.success("PDF successfully deleted.", { id: toastId });
+
+      // Invalidate and refetch
+      await queryClient.invalidateQueries({ queryKey: ["myFiles"] });
     },
   });
 
@@ -65,23 +100,41 @@ const MyFiles = () => {
             <span>
               {format(new Date(document.createdAt), "HH:mm:ss, MM/dd/yyyy")}
             </span>
-            <span>
-              <TooltipProvider delayDuration={300}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
+
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className="h-7 w-7 rounded-sm p-1 hover:bg-primary-foreground hover:text-primary"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <Trash2 className="text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Delete</TooltipContent>
+              </Tooltip>
+
+              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{document.name}</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to delete this document? You
+                      can&apos;t undo this.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
                     <Button
-                      variant={"outline"}
-                      className="h-7 w-7 rounded-sm p-1 hover:bg-primary-foreground hover:text-primary"
+                      type="submit"
+                      onClick={() => mutation.mutate(document.id)}
                     >
-                      <Trash2 />
+                      Confirm
                     </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Detele</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </span>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </TooltipProvider>
           </p>
         </li>
       ))}
