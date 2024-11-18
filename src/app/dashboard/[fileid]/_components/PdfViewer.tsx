@@ -12,6 +12,7 @@ import type {
 } from "@/types/document";
 import { Loader } from "@/components/Loader";
 import { toast } from "sonner";
+import ScrollAreaWrapper from "@/components/ScrollAreaWrapper";
 
 interface PdfViewerProps {
   id: string;
@@ -69,7 +70,7 @@ const PdfViewer = ({ id }: PdfViewerProps) => {
   if (error) return <p className="w-1/2">{error.message}</p>;
 
   return (
-    <div className="w-1/2 overflow-y-scroll border-[1px] border-stone-200 bg-white">
+    <ScrollAreaWrapper>
       <Document
         inputRef={ref}
         file={document?.url}
@@ -90,7 +91,7 @@ const PdfViewer = ({ id }: PdfViewerProps) => {
           />
         ))}
       </Document>
-    </div>
+    </ScrollAreaWrapper>
   );
 };
 
