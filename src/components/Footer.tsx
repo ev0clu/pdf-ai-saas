@@ -10,14 +10,14 @@ const Footer = () => {
         className="flex items-center justify-center text-xl text-gray-950 hover:text-neutral-400"
         href="https://github.com/ev0clu"
         target="_blank"
-        rel="noreferrer"
       >
         <Image
           src={githubImgSrc}
-          priority
           alt="github-logo"
-          className={"h-5 w-5 rounded-full hover:opacity-60"}
-        ></Image>
+          className={"rounded-full hover:opacity-60"}
+          height={20}
+          width={20}
+        />
       </Link>
     </footer>
   );
