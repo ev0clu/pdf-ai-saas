@@ -14,10 +14,6 @@ import { Loader } from "@/components/Loader";
 import { toast } from "sonner";
 import ScrollAreaWrapper from "@/components/ScrollAreaWrapper";
 
-interface PdfViewerProps {
-  id: string;
-}
-
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
@@ -27,6 +23,10 @@ const options = {
   cMapUrl: "/cmaps/",
   standardFontDataUrl: "/standard_fonts/",
 };
+
+interface PdfViewerProps {
+  id: string;
+}
 
 const PdfViewer = ({ id }: PdfViewerProps) => {
   const ref = useRef<HTMLDivElement>(null);
