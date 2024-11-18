@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
+import type { Document } from "@/types/document";
 
 export async function GET(
   req: Request,
