@@ -23,17 +23,30 @@ model User {
 }
 
 model Document {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  name   String
-  size   Int
-  type   String
-  url    String
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String    @db.ObjectId
+  name     String
+  size     Int
+  type     String
+  url      String
+  messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  documentId String @db.ObjectId
+  author     Author
+  text       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -81,4 +94,9 @@ model VerificationToken {
 enum Plan {
   FREE
   PRO
+}
+
+enum Author {
+  USER
+  AI
 }
