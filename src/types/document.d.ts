@@ -14,7 +14,7 @@ export type DocumentResponse = {
   message: string;
 };
 
-export type AllDocumentResponse = {
+export type AllDocumentsResponse = {
   documents: Document[];
   message: string;
 };
