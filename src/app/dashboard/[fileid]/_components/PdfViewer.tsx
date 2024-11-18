@@ -13,6 +13,7 @@ import type {
 import { Loader } from "@/components/Loader";
 import { toast } from "sonner";
 import ScrollAreaWrapper from "@/components/ScrollAreaWrapper";
+import ErrorWrapper from "@/components/ErrorWrapper";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -67,7 +68,7 @@ const PdfViewer = ({ id }: PdfViewerProps) => {
     setNumPages(nextNumPages);
   }
 
-  if (error) return <p className="w-1/2">{error.message}</p>;
+  if (error) <ErrorWrapper text={error.message} />;
 
   return (
     <ScrollAreaWrapper>
