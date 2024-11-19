@@ -9,13 +9,14 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 - Allow user to log in to the platform
 - Allow user to upload any PDF document and search for any content inside this
 - Intuitive Drag n&apos; Drop Uploads
-- Beautiful And Highly Functional PDF Viewer
+- PDF Viewer to see the uploaded PDF document
 - 100% written in TypeScript
 - OpeanAI text embedding model has been used
 - LangChain use to integrate LLM into the app
 - Pinecone Vector Database has been used to store embeds data into vector space
+- MongoDB NoSQL Database has been used to store user, document and chat informations
 - Stripe payment is used with webhook for payment in order to retrive information about the status of the payment
-- Next.js framework is used
+- Next.js framework is used to create full stack app
 - Tailwind CSS is used with Shadcn UI component library to built beautiful design
 - Prisma ORM is used to communicate with database
 
@@ -23,15 +24,16 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 
 1. Clone the repository
 2. Run `npm install` command in your terminal
-3. Generate auth secret, which automatically create .env.local file for environment variables:
+3. Generate auth secret, which automatically create .env.local file for environment variables (you can use _.env_ later and put the secret into it):
    `npx auth secret`
 4. Set up Google OAuth: [Google](https://www.youtube.com/watch?v=ot9yuKg15iA&t=210s)
-5. Add environment variables into the .env.local file:<br>
-   `AUTH_SECRET="<YOUR-SECRET>"` <--Already exist due to **step 3**<br>
+5. Add environment variables into the .env file:<br>
+   `AUTH_SECRET="<YOUR-SECRET>"`<br>
    `AUTH_GOOGLE_ID="<YOUR-GOOGLE-ID>"`<br>
    `AUTH_GOOGLE_SECRET="<YOUR-GOOGLE-SECRET>"`<br>
    `DATABASE_URL="<YOUR-DATABASE-URL>"`<br>
-   `UPLOADTHING_TOKEN="<YOUR-UPLOADTHING-TOKEN>"`
+   `UPLOADTHING_TOKEN="<YOUR-UPLOADTHING-TOKEN>"`<br>
+   `PINECONE_API_KEY="<YOUR-PINECONE-TOKEN>"`<br>
 6. Run `npm run prisma:generate` in order to apply prisma schema
 7. Run `npm run prisma:push` to push db to MongoDB
 8. Run `npm run dev` command in your terminal
