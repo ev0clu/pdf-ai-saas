@@ -29,6 +29,7 @@ model Document {
   size     Int
   type     String
   url      String
+  key      String
   messages Message[]
 
   createdAt DateTime @default(now())
