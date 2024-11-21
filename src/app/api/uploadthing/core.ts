@@ -3,6 +3,9 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import type { UploadedFileData } from "uploadthing/types";
 import { prisma } from "../../../../prisma/prisma";
+import { getPineconeClient } from "@/lib/pinecone";
+import { getChunckedDocsFromPDF } from "@/lib/pdf-loader";
+import { addToVectorStore } from "@/lib/vector-store";
 
 const f = createUploadthing();
 
@@ -25,8 +28,6 @@ const onUploadComplete = async ({
   file: UploadedFileData;
 }) => {
   // This code RUNS ON YOUR SERVER after upload
-  //console.log("Upload complete for userEmail:", metadata.userEmail);
-
   const document = await prisma.document.create({
     data: {
       userId: metadata.userId,
@@ -34,8 +35,15 @@ const onUploadComplete = async ({
       size: file.size,
       type: file.type,
       url: file.url,
+      key: file.key,
     },
   });
+
+  const chunkedDocs = await getChunckedDocsFromPDF(file.url);
+
+  const pineconeClient = await getPineconeClient();
+
+  await addToVectorStore(pineconeClient, chunkedDocs, document.id);
 
   // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
   return { docUrl: file.url, docId: document.id };
