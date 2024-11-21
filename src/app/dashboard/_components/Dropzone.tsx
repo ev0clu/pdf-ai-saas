@@ -1,6 +1,6 @@
 "use client";
 
-import { useUploadThing } from "@/lib/uploadthing";
+import { useUploadThing } from "@/lib/uploadthing-client";
 import { useRouter } from "next/navigation";
 import { CloudUpload, File, Plus } from "lucide-react";
 import { useSession } from "next-auth/react";
