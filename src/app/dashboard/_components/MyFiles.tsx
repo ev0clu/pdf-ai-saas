@@ -129,6 +129,7 @@ const MyFiles = () => {
                   <DialogFooter>
                     <Button
                       type="submit"
+                      disabled={mutation.isPending}
                       onClick={() => mutation.mutate(document.id)}
                     >
                       Confirm
