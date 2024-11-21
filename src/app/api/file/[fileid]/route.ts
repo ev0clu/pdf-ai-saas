@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma/prisma";
 import type { Document } from "@/types/document";
+import { getPineconeClient } from "@/lib/pinecone";
+import { deleteFromVectorStore } from "@/lib/vector-store";
+import { deleteFromUT } from "@/lib/uploadthing-server";
 
 export async function GET(
   req: Request,
@@ -39,15 +42,19 @@ export async function DELETE(
   try {
     const fileId = (await params).fileid;
 
-    const documents = await prisma.document.delete({
+    const document = await prisma.document.delete({
       where: {
         id: fileId,
       },
     });
 
+    const pineconeClient = await getPineconeClient();
+    await deleteFromVectorStore(pineconeClient, fileId);
+    await deleteFromUT(document.key);
+
     return NextResponse.json(
       {
-        documents,
+        document,
         message: "PDF document has been deleted",
       },
       { status: 201 },
