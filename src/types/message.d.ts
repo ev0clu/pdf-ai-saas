@@ -9,6 +9,12 @@ export type Message = {
   updatedAt: Date;
 };
 
+export type PostMessage = {
+  documentId: string;
+  text: string;
+  messages: Message[];
+};
+
 export type AllMessagesResponse = {
   messages: Message[];
   message: string;
