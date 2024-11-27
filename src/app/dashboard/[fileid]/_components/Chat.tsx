@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Bot, MessageSquareMore } from "lucide-react";
 import ScrollAreaWrapper from "@/components/ScrollAreaWrapper";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +9,6 @@ import { Loader } from "@/components/Loader";
 import ErrorWrapper from "@/components/ErrorWrapper";
 import { cn } from "@/lib/utils";
 import ChatInput from "./ChatInput";
-import { useEffect, useRef } from "react";
 
 interface ChatProps {
   id: string;
