@@ -8,7 +8,7 @@ const Document = async (props: { params: Promise<{ fileid: string }> }) => {
 
   return (
     <ContainerWrapper className="mt-7 md:mt-14">
-      <div className="flex h-[calc(100vh-199px)] flex-row gap-4">
+      <div className="flex flex-col gap-4 md:h-[calc(100vh-199px)] md:flex-row">
         <PdfViewer id={fileId} />
         <Chat id={fileId} />
       </div>
