@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
 import { prisma } from "../../../../prisma/prisma";
-import type { Message } from "@/types/message";
+import type { Message, PostMessage } from "@/types/message";
+import { getConversationalRagChainWithHistory } from "@/lib/vector-store";
+import { getPineconeClient } from "@/lib/pinecone";
 
 export async function GET(req: NextRequest) {
   try {
@@ -27,6 +28,78 @@ export async function GET(req: NextRequest) {
       {
         messages,
         message: "All Messages records are returned",
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: error,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const { documentId, text, messages } = (await req.json()) as PostMessage;
+
+    (await prisma.message.create({
+      data: {
+        documentId: documentId,
+        author: "USER",
+        text: text,
+      },
+    })) as Message;
+
+    const pineconeClient = await getPineconeClient();
+
+    const conversationalRagChain = await getConversationalRagChainWithHistory(
+      pineconeClient,
+      documentId,
+      text,
+      messages,
+    );
+
+    (await prisma.message.create({
+      data: {
+        documentId: documentId,
+        author: "AI",
+        text: conversationalRagChain.answer,
+      },
+    })) as Message;
+
+    //console.log(response);
+
+    /*for await (const s of await response.stream({
+      input: text,
+      chat_history: "",
+    })) {
+      console.log(s.answer);
+      //  return  LangChainAdapter.toDataStreamResponse(s.answer);
+    }*/
+
+    // return LangChainAdapter.toDataStreamResponse(conversationalRagChain);
+
+    /*   for await (const s of await conversationalRagChain.stream(
+      { input: text },
+      { configurable: { sessionId: "unique_session_id" } },
+    )) {
+      LangChainAdapter.toDataStreamResponse(s.answer);
+    }
+/*
+    (await prisma.message.create({
+      data: {
+        documentId: documentId,
+        author: "USER",
+        text: text,
+      },
+    })) as Message;
+*/
+    return NextResponse.json(
+      {
+        message: "Post Message successfully",
       },
       { status: 201 },
     );
