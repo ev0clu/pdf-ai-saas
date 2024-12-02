@@ -18,7 +18,6 @@ import type { Message } from "@/types/message";
 
 let embeddingsClient: OpenAIEmbeddings | null = null;
 let chatClient: ChatOpenAI | null = null;
-const chatHistory: BaseMessage[] = [];
 
 async function initEmbeddingsClient() {
   try {
@@ -94,6 +93,18 @@ export async function deleteFromVectorStore(
   }
 }
 
+function formatChatHistoryMessages(messages: Message[]): BaseMessage[] {
+  const chatHistory = messages.map((message) => {
+    if (message.author === "USER") {
+      return new HumanMessage(message.text);
+    }
+    if (message.author === "AI") {
+      return new AIMessage(message.text);
+    }
+  }) as BaseMessage[];
+  return chatHistory;
+}
+
 export async function getConversationalRagChainWithHistory(
   pineconeClient: Pinecone,
   namespace: string,
@@ -155,26 +166,10 @@ export async function getConversationalRagChainWithHistory(
       combineDocsChain: questionAnswerChain,
     });
 
-    if (messages.length > 0) {
-      if (chatHistory.length === 0) {
-        for (const message of messages) {
-          if (message.author === "USER") {
-            chatHistory.push(new HumanMessage(message.text));
-          }
-          if (message.author === "AI") {
-            chatHistory.push(new AIMessage(message.text));
-          }
-        }
-      } else {
-        chatHistory.push(new HumanMessage(messages[messages.length - 1].text));
-      }
-    }
-
     const results = await ragChain.invoke({
       input: text,
-      chat_history: chatHistory,
+      chat_history: formatChatHistoryMessages(messages),
     });
-    chatHistory.push(new AIMessage(results.answer));
 
     return results;
 
