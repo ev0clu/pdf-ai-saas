@@ -9,6 +9,9 @@ const envSchema = z.object({
   PINECONE_API_KEY: z.string().trim().min(1),
   PINECONE_INDEX: z.string().trim().min(1),
   OPENAI_API_KEY: z.string().trim().min(1),
+  STRIPE_PUBLIC_KEY: z.string().trim().min(1),
+  STRIPE_SECRET_KEY: z.string().trim().min(1),
+  STRIPE_SIGNATURE_SECRET: z.string().trim().min(1),
 });
 
 export const env = envSchema.parse(process.env);

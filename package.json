@@ -43,6 +43,7 @@
     "react-dropzone": "^14.2.10",
     "react-pdf": "^9.1.1",
     "sonner": "^1.7.0",
+    "stripe": "^17.4.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.3.0",
