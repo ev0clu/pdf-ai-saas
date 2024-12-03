@@ -15,7 +15,7 @@ export function Loader({ size }: LoaderProps) {
       <div
         className={cn(
           "text-surface inline-block animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-rose-500 motion-reduce:animate-[spin_1.5s_linear_infinite]",
-          { "h-10 w-10": size === "icon", "h-5 w-5": size === "icon" },
+          { "h-10 w-10": size === "default", "h-5 w-5": size === "icon" },
         )}
         role="img"
       >
