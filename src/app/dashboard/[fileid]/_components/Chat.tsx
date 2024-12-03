@@ -106,7 +106,7 @@ const Chat = ({ id }: ChatProps) => {
                 );
               })
             )}
-            {newMessage !== undefined ? (
+            {newMessage && (
               <>
                 <div className="flex w-full justify-end">
                   <div className="flex flex-row gap-2 rounded-md border border-stone-200 bg-stone-50 px-2 py-1">
@@ -121,7 +121,7 @@ const Chat = ({ id }: ChatProps) => {
                   </div>
                 </div>
               </>
-            ) : null}
+            )}
           </div>
           <ChatInput
             documentId={id}
