@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const envSchema = z.object({
+  DOMAIN: z.string().trim().min(1),
   AUTH_SECRET: z.string().trim().min(1),
   AUTH_GOOGLE_ID: z.string().trim().min(1),
   AUTH_GOOGLE_SECRET: z.string().trim().min(1),
