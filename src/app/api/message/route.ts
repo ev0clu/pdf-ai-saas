@@ -70,33 +70,6 @@ export async function POST(req: NextRequest) {
       },
     })) as Message;
 
-    //console.log(response);
-
-    /*for await (const s of await response.stream({
-      input: text,
-      chat_history: "",
-    })) {
-      console.log(s.answer);
-      //  return  LangChainAdapter.toDataStreamResponse(s.answer);
-    }*/
-
-    // return LangChainAdapter.toDataStreamResponse(conversationalRagChain);
-
-    /*   for await (const s of await conversationalRagChain.stream(
-      { input: text },
-      { configurable: { sessionId: "unique_session_id" } },
-    )) {
-      LangChainAdapter.toDataStreamResponse(s.answer);
-    }
-/*
-    (await prisma.message.create({
-      data: {
-        documentId: documentId,
-        author: "USER",
-        text: text,
-      },
-    })) as Message;
-*/
     return NextResponse.json(
       {
         message: "Post Message successfully",
