@@ -9,9 +9,10 @@ import type { Message } from "@/types/message";
 interface ChatInputProps {
   documentId: string;
   messages: Message[] | [] | undefined;
+  addMessage: (author: "USER" | "AI", text: string) => void;
 }
 
-const ChatInput = ({ documentId, messages }: ChatInputProps) => {
+const ChatInput = ({ documentId, messages, addMessage }: ChatInputProps) => {
   const queryClient = useQueryClient();
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -25,7 +26,6 @@ const ChatInput = ({ documentId, messages }: ChatInputProps) => {
         body: JSON.stringify({ documentId, text, messages }),
       }),
     onSuccess: async () => {
-      setInputValue("");
       // Invalidate and refetch
       await queryClient.invalidateQueries({ queryKey: ["messages"] });
     },
@@ -37,8 +37,9 @@ const ChatInput = ({ documentId, messages }: ChatInputProps) => {
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
+      addMessage("USER", inputValue);
       mutation.mutate(inputValue);
-      setInputValue(event.currentTarget.value);
+      setInputValue("");
     }
   }
 
@@ -57,7 +58,11 @@ const ChatInput = ({ documentId, messages }: ChatInputProps) => {
         size={"icon"}
         className="absolute right-0"
         disabled={!inputValue || mutation.isPending}
-        onClick={() => mutation.mutate(inputValue)}
+        onClick={() => {
+          addMessage("USER", inputValue);
+          mutation.mutate(inputValue);
+          setInputValue("");
+        }}
       >
         <Send className="h-5 w-5 text-primary" />
       </Button>

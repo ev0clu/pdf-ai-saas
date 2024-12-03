@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Bot, MessageSquareMore } from "lucide-react";
 import ScrollAreaWrapper from "@/components/ScrollAreaWrapper";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +15,7 @@ interface ChatProps {
 }
 
 const Chat = ({ id }: ChatProps) => {
+  const [newMessage, setNewMessage] = useState<Message>();
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const {
@@ -32,10 +33,22 @@ const Chat = ({ id }: ChatProps) => {
       });
 
       const result = (await response.json()) as AllMessagesResponse;
+      setNewMessage(undefined);
 
       return result.messages;
     },
   });
+
+  function addMessage(author: "USER" | "AI", text: string) {
+    setNewMessage({
+      id: crypto.randomUUID(),
+      documentId: id,
+      author,
+      text,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
 
   // Auto-scroll to the latest message
   useEffect(() => {
@@ -47,7 +60,7 @@ const Chat = ({ id }: ChatProps) => {
   return (
     <ScrollAreaWrapper className="flex flex-col justify-end gap-1">
       {isPending ? (
-        <Loader />
+        <Loader size="default" />
       ) : (
         <>
           <div
@@ -82,7 +95,6 @@ const Chat = ({ id }: ChatProps) => {
                         },
                       )}
                     >
-                      {" "}
                       {message.author === "AI" && (
                         <span className="h-5 w-5">
                           <Bot className="text-primary" />
@@ -94,8 +106,28 @@ const Chat = ({ id }: ChatProps) => {
                 );
               })
             )}
+            {newMessage !== undefined ? (
+              <>
+                <div className="flex w-full justify-end">
+                  <div className="flex flex-row gap-2 rounded-md border border-stone-200 bg-stone-50 px-2 py-1">
+                    <span>{newMessage.text}</span>
+                  </div>
+                </div>
+                <div className="flex w-full justify-start">
+                  <div className="flex flex-row gap-2 rounded-md border border-stone-200 bg-primary-foreground px-2 py-1">
+                    <span className="h-">
+                      <Loader size="icon" />
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : null}
           </div>
-          <ChatInput documentId={id} messages={messages} />
+          <ChatInput
+            documentId={id}
+            messages={messages}
+            addMessage={addMessage}
+          />
         </>
       )}
     </ScrollAreaWrapper>
