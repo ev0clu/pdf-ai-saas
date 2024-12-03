@@ -96,8 +96,8 @@ const Chat = ({ id }: ChatProps) => {
                       )}
                     >
                       {message.author === "AI" && (
-                        <span className="h-5 w-5">
-                          <Bot className="text-primary" />
+                        <span className="h-6 w-6">
+                          <Bot className="h-6 w-6 text-primary" />
                         </span>
                       )}
                       <span>{message.text}</span>
