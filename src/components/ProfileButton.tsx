@@ -7,16 +7,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, Sparkles } from "lucide-react";
 import SignOutButton from "./SignOutButton";
 
 interface ProfileButtonProps {
   name: string | null | undefined;
   email: string | null | undefined;
   profileImgSrc: string | null | undefined;
+  plan: "FREE" | "PRO" | null | undefined;
 }
 
-const ProfileButton = ({ name, email, profileImgSrc }: ProfileButtonProps) => {
+const ProfileButton = ({
+  name,
+  email,
+  profileImgSrc,
+  plan,
+}: ProfileButtonProps) => {
   return (
     <>
       <DropdownMenu>
@@ -42,6 +48,14 @@ const ProfileButton = ({ name, email, profileImgSrc }: ProfileButtonProps) => {
           </DropdownMenuLabel>
           <DropdownMenuLabel className="font-normal text-muted-foreground">
             {email}
+          </DropdownMenuLabel>
+          <DropdownMenuLabel className="flex flex-row gap-2 font-normal text-muted-foreground">
+            <span>{plan === "FREE" ? "Free" : "Pro"} Plan</span>
+            <span>
+              {plan === "PRO" && (
+                <Sparkles className="h-5 w-5 text-yellow-500" />
+              )}
+            </span>
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="mx-2" />
           <DropdownMenuItem>

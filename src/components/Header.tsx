@@ -67,6 +67,7 @@ const Header = async () => {
               profileImgSrc={session.user?.image}
               name={session.user?.name}
               email={session.user?.email}
+              plan={session.user.plan}
             />
           )}
         </li>
