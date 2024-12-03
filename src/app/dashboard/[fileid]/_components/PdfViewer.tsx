@@ -79,8 +79,8 @@ const PdfViewer = ({ id }: PdfViewerProps) => {
         onLoadError={() => {
           toast.error("Error loading PDF");
         }}
-        loading={<Loader />}
-        noData={<Loader />}
+        loading={<Loader size="default" />}
+        noData={<Loader size="default" />}
         options={options}
       >
         {Array.from(new Array(numPages), (el, index) => (

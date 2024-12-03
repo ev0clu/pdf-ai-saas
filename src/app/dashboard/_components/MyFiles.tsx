@@ -72,7 +72,7 @@ const MyFiles = () => {
     },
   });
 
-  if (isPending) return <Loader />;
+  if (isPending) return <Loader size="default" />;
   if (error) return <p>{error.message}</p>;
   if (!documents || documents.length === 0)
     return <p>There is still no any PDF documents.</p>;
