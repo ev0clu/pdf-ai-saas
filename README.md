@@ -34,6 +34,10 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
    `DATABASE_URL="<YOUR-DATABASE-URL>"`<br>
    `UPLOADTHING_TOKEN="<YOUR-UPLOADTHING-TOKEN>"`<br>
    `PINECONE_API_KEY="<YOUR-PINECONE-TOKEN>"`<br>
+   `OPENAI_API_KEY="<YOUR-OPENAI-TOKEN>"`<br>
+   `STRIPE_PUBLIC_KEY="<YOUR-STRIPE-PUBLIC-TOKEN>"`<br>
+   `STRIPE_SECRET_KEY="<YOUR-STRIPE-SECRET-TOKEN>"`<br>
+   `STRIPE_SIGNATURE_SECRET="<YOUR-RANDOM-STRIPE-SIGNATURE-TOKEN>"`<br>
 6. Run `npm run prisma:generate` in order to apply prisma schema
 7. Run `npm run prisma:push` to push db to MongoDB
 8. Run `npm run dev` command in your terminal
@@ -50,6 +54,14 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 - Google Provider config page:
   - [Google](https://console.developers.google.com/apis/credentials)
   - [Youtube](https://www.youtube.com/watch?v=ot9yuKg15iA&t=210s)
+- Stripe, checkout session, webhook:
+  - [GitHub #1](https://github.com/stripe/stripe-node)
+  - [GitHub #2](https://github.com/stripe-samples/accept-a-payment/blob/main/prebuilt-checkout-page/server/node/server.js)
+  - [Linkedin.com](https://www.linkedin.com/pulse/how-create-stripe-webhook-nextjs-1344-mohsin-ali-soomro/)
+  - [Dev.to](https://dev.to/mohsinalisoomro/how-to-create-stripe-webhook-in-nextjs-1344-5fn)
+  - [Medium.com](https://medium.com/@lev"<YOUR-STRIPE-SIGNATURE-TOKEN>"i.schouten.werk/building-a-payment-flow-in-next-js-13-using-stripe-mailsender-and-webhooks-291996bf1b24)
+- Stripe Test cards:
+  - [Stripe.com](https://stripe.com/docs/checkout/quickstart#testing)
 
 ### Dependencies
 
