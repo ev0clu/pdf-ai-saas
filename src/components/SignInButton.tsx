@@ -1,9 +1,9 @@
+import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { signInHandler } from "@/lib/sign-in";
 
 interface SignInButtonProps {
   text: string;
-  provider: string | undefined;
+  provider: string;
 }
 
 export default function SignInButton({
@@ -12,7 +12,12 @@ export default function SignInButton({
   ...props
 }: SignInButtonProps & React.ComponentPropsWithRef<typeof Button>) {
   return (
-    <form action={() => signInHandler(provider)}>
+    <form
+      action={async () => {
+        "use server";
+        await signIn(provider, { redirectTo: "/dashboard" });
+      }}
+    >
       <Button {...props}>{text}</Button>
     </form>
   );
