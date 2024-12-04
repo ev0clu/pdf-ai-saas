@@ -9,6 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CircleUserRound, Sparkles } from "lucide-react";
 import SignOutButton from "./SignOutButton";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "./ui/button";
 
 interface ProfileButtonProps {
   name: string | null | undefined;
@@ -59,7 +62,19 @@ const ProfileButton = ({
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="mx-2" />
           <DropdownMenuItem>
-            <SignOutButton variant={"default"} text="Sign out" />
+            <Link
+              className={cn(buttonVariants({ variant: "ghost" }), "w-full")}
+              href="/subscription"
+            >
+              Manage Subscription
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <SignOutButton
+              variant={"default"}
+              className="w-full"
+              text="Sign out"
+            />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

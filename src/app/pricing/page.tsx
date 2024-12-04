@@ -1,7 +1,13 @@
+"use server";
+
 import { cn } from "@/lib/utils";
 import PlanFeature from "@/app/pricing/_components/PlanFeature";
 import SignInButton from "@/components/SignInButton";
 import ContainerWrapper from "@/components/ContainerWrapper";
+import { PRO_PLAN } from "@/constants/plan";
+import { auth } from "@/auth";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 const planItems = [
   {
@@ -19,7 +25,7 @@ const planItems = [
   {
     plan: "Pro",
     description: "For professional",
-    price: 10,
+    price: PRO_PLAN,
     features: {
       uploadLimit: "30",
       fileSizeLimit: "16MB",
@@ -30,7 +36,9 @@ const planItems = [
   },
 ];
 
-const Pricing = () => {
+const Pricing = async () => {
+  const session = await auth();
+
   return (
     <ContainerWrapper>
       <div className="mx-auto">
@@ -38,6 +46,7 @@ const Pricing = () => {
         <p className="mb-10 max-w-prose text-center text-muted-foreground md:mb-20 md:text-lg">
           Start free, chat with any document and pay as you go
         </p>
+
         <div className="flex flex-col gap-5 md:flex-row">
           {planItems.map((item) => {
             return (
@@ -84,12 +93,25 @@ const Pricing = () => {
                   text="Customer support"
                 />
                 <div className="!mt-5 w-full">
-                  <SignInButton
-                    variant={item.plan === "Free" ? "outline" : "default"}
-                    provider="google"
-                    text="Free trial"
-                    className="w-full"
-                  />
+                  {!session?.user && (
+                    <SignInButton
+                      variant={"outline"}
+                      provider="google"
+                      text="Free trial"
+                      className="w-full"
+                    />
+                  )}
+                  {session?.user && item.plan === "Pro" && (
+                    <Link
+                      className={cn(
+                        buttonVariants({ variant: "default" }),
+                        "w-full",
+                      )}
+                      href="/subscription"
+                    >
+                      Manage Subscription
+                    </Link>
+                  )}
                 </div>
               </div>
             );

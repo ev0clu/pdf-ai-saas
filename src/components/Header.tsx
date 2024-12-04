@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
 import logoSrc from "../../public/logo.png";
-import { CircleUserRound, Menu as MenuIcon } from "lucide-react";
+import { CircleUserRound, Menu as MenuIcon, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -116,6 +116,16 @@ const Header = async () => {
                   </div>
                 </div>
               </div>
+              <div className="mt-2 text-center text-sm font-normal text-muted-foreground">
+                <span>
+                  {session.user.plan === "FREE" ? "Free" : "Pro"} Plan
+                </span>
+                <span>
+                  {session.user.plan === "PRO" && (
+                    <Sparkles className="h-5 w-5 text-yellow-500" />
+                  )}
+                </span>
+              </div>
               <div className="mt-5 h-[1px] w-full bg-gray-200"></div>
             </>
           )}
@@ -147,6 +157,19 @@ const Header = async () => {
                   )}
                 >
                   Pricing
+                </Link>
+              </SheetClose>
+            </li>
+            <li className="text-center">
+              <SheetClose asChild>
+                <Link
+                  href="/subscription"
+                  className={cn(
+                    buttonVariants({ variant: "ghost" }),
+                    "w-full text-lg font-extrabold",
+                  )}
+                >
+                  Manage Subscription
                 </Link>
               </SheetClose>
             </li>
