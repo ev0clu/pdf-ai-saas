@@ -15,6 +15,7 @@ export default function SignOutButton({
         "use server";
         await signOut({ redirectTo: "/" });
       }}
+      className="w-full"
     >
       <Button {...props}>{text}</Button>
     </form>
