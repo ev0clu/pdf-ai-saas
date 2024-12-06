@@ -8,15 +8,20 @@ generator client {
 }
 
 model User {
-  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?    @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  plan          Plan       @default(FREE)
-  documents     Document[]
-  accounts      Account[]
-  sessions      Session[]
+  plan          Plan      @default(FREE)
+
+  stripeCustomerId       String?
+  stripeSubscriptionId   String?
+  stripeCurrentPeriodEnd DateTime?
+
+  documents Document[]
+  accounts  Account[]
+  sessions  Session[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
