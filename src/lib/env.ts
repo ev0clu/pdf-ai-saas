@@ -13,6 +13,7 @@ const envSchema = z.object({
   STRIPE_PUBLIC_KEY: z.string().trim().min(1),
   STRIPE_SECRET_KEY: z.string().trim().min(1),
   STRIPE_SIGNATURE_SECRET: z.string().trim().min(1),
+  STRIPE_PRODUCT_PRICE_ID: z.string().trim().min(1),
 });
 
 export const env = envSchema.parse(process.env);
