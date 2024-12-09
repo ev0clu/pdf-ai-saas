@@ -9,13 +9,17 @@ export default {
   callbacks: {
     async authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
-      if (pathname === "/dashboard") return !!auth;
+      if (pathname === "/dashboard" || pathname === "/subscription")
+        return !!auth;
       return true;
     },
     async jwt({ token, trigger, session, account, user }) {
       if (trigger === "update") {
         token.user.plan = session.user.plan;
+        token.user.stripeCurrentPeriodEnd = session.user.stripeCurrentPeriodEnd;
+        token.user.stripeCustomerId = session.user.stripeCustomerId;
       }
+
       if (account?.provider === "google") {
         return {
           ...token,
@@ -24,6 +28,8 @@ export default {
             ...token.user,
             id: user.id ?? "",
             plan: user.plan ?? "FREE",
+            stripeCustomerId: user.stripeCustomerId ?? "",
+            stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd ?? "",
           },
         };
       }
@@ -33,6 +39,8 @@ export default {
       session.accessToken = token.accessToken;
       session.user.plan = token.user.plan;
       session.user.id = token.user.id;
+      session.user.stripeCurrentPeriodEnd = token.user.stripeCurrentPeriodEnd;
+      session.user.stripeCustomerId = token.user.stripeCustomerId;
 
       return session;
     },
@@ -42,11 +50,15 @@ export default {
 declare module "next-auth" {
   interface User {
     plan: "FREE" | "PRO";
+    stripeCustomerId: string;
+    stripeCurrentPeriodEnd: Date;
   }
   interface Session {
     accessToken?: string;
     user: {
       plan: "FREE" | "PRO";
+      stripeCustomerId: string;
+      stripeCurrentPeriodEnd: Date;
     } & DefaultSession["user"];
   }
 }
@@ -57,6 +69,8 @@ declare module "next-auth/jwt" {
     user: {
       id: string;
       plan: "FREE" | "PRO";
+      stripeCustomerId: string;
+      stripeCurrentPeriodEnd: Date;
     };
   }
 }
