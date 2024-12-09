@@ -27,7 +27,10 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 3. Generate auth secret, which automatically create .env.local file for environment variables (you can use _.env_ later and put the secret into it):
    `npx auth secret`
 4. Set up Google OAuth: [Google](https://www.youtube.com/watch?v=ot9yuKg15iA&t=210s)
-5. Add environment variables into the .env file:<br>
+5. Create stripe account and get keys [link](https://dashboard.stripe.com/test/apikeys).
+6. Add stripe webhook endpoint [link](https://dashboard.stripe.com/test/webhooks).
+7. Activate stripe billing portal [link](https://dashboard.stripe.com/test/settings/billing/portal).
+8. Add environment variables into the .env file:<br>
    `AUTH_SECRET="<YOUR-SECRET>"`<br>
    `AUTH_GOOGLE_ID="<YOUR-GOOGLE-ID>"`<br>
    `AUTH_GOOGLE_SECRET="<YOUR-GOOGLE-SECRET>"`<br>
@@ -35,13 +38,15 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
    `UPLOADTHING_TOKEN="<YOUR-UPLOADTHING-TOKEN>"`<br>
    `PINECONE_API_KEY="<YOUR-PINECONE-TOKEN>"`<br>
    `OPENAI_API_KEY="<YOUR-OPENAI-TOKEN>"`<br>
-   `STRIPE_PUBLIC_KEY="<YOUR-STRIPE-PUBLIC-TOKEN>"`<br>
    `STRIPE_SECRET_KEY="<YOUR-STRIPE-SECRET-TOKEN>"`<br>
-   `STRIPE_SIGNATURE_SECRET="<YOUR-RANDOM-STRIPE-SIGNATURE-TOKEN>"`<br>
-6. Run `npm run prisma:generate` in order to apply prisma schema
-7. Run `npm run prisma:push` to push db to MongoDB
-8. Run `npm run dev` command in your terminal
-9. Server running at `http://localhost:3000/`
+   `STRIPE_WEBHOOK_SECRET="<YOUR-STRIPE-WEBHOOK-SECRET-TOKEN>"`<br>
+   `STRIPE_PRODUCT_PRICE_ID="<YOUR-STRIPE-PRO-PLAN-PRICE-ID>"`<br>
+9. Create new product with features on stripe: [link](https://docs.stripe.com/billing/quickstart)
+
+10. Run `npm run prisma:generate` in order to apply prisma schema
+11. Run `npm run prisma:push` to push db to MongoDB
+12. Run `npm run dev` command in your terminal
+13. Server running at `http://localhost:3000/`
 
 ### Useful links and informations
 
