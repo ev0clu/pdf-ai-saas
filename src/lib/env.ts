@@ -10,9 +10,8 @@ const envSchema = z.object({
   PINECONE_API_KEY: z.string().trim().min(1),
   PINECONE_INDEX: z.string().trim().min(1),
   OPENAI_API_KEY: z.string().trim().min(1),
-  STRIPE_PUBLIC_KEY: z.string().trim().min(1),
   STRIPE_SECRET_KEY: z.string().trim().min(1),
-  STRIPE_SIGNATURE_SECRET: z.string().trim().min(1),
+  STRIPE_WEBHOOK_SECRET: z.string().trim().min(1),
   STRIPE_PRODUCT_PRICE_ID: z.string().trim().min(1),
 });
 
