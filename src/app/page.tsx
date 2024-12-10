@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ContainerWrapper from "@/components/ContainerWrapper";
 import {
   StepperBarWrapper,
@@ -6,26 +7,35 @@ import {
   StepperContentWrapper,
   StepperContent,
 } from "@/components/Stepper";
+import layoutSrc from "../../public/quiri-pdf.png";
 
 export default function Home() {
   return (
     <ContainerWrapper>
-      <div className="mx-auto">
-        <p className="max-w-4xl text-center text-4xl font-bold tracking-wide md:text-6xl lg:text-7xl">
-          Chat with your <span className="text-primary">PDF</span> documents
-        </p>
-        <p className="max-w-prose text-center text-muted-foreground md:text-lg">
-          Let&apos;s use the power of AI and get an overview about any PDF in
-          seconds.{" "}
-          <span className="decoration-slice font-bold text-black underline decoration-primary decoration-wavy">
-            QuiriPDF
-          </span>{" "}
-          is a tool which use artifact intelligent and answer to any questions
-          about the uploaded PDF document very quick.
-        </p>
-
+      <div className="mx-auto space-y-3">
+        <div className="flex flex-col items-center gap-3">
+          <p className="max-w-5xl text-center text-4xl font-bold tracking-wide md:text-6xl lg:text-7xl">
+            Chat with your <span className="text-primary">PDF</span> documents
+          </p>
+          <p className="max-w-prose text-center text-muted-foreground md:text-lg">
+            Let&apos;s use the power of AI and get an overview about any PDF in
+            seconds.{" "}
+            <span className="decoration-slice font-bold text-black underline decoration-primary decoration-wavy">
+              QuiriPDF
+            </span>{" "}
+            is a tool which use artifact intelligent and answer to any questions
+            about the uploaded PDF document very quick.
+          </p>
+        </div>
+        <Image
+          src={layoutSrc}
+          alt="Layout picture"
+          className="inset-0 rounded-md bg-stone-300/50 p-2 shadow-xl ring-1 ring-stone-300/50 backdrop-blur-md"
+          height={919}
+          width={1443}
+        />
         <div>
-          <h1 className="mt-14 text-center md:mt-28">
+          <h1 className="mt-12 text-center md:mt-28">
             Just a few steps need to chat
           </h1>
           <div>
