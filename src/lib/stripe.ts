@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { env } from "./env";
-import type { User } from "@/types/user";
+import type { PLAN, User } from "@/types/user";
 import { prisma } from "../../prisma/prisma";
 
 export const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
@@ -61,7 +61,6 @@ export async function billingPortalStripeSession(stripeCustomerId: string) {
     return session;
   } else throw new Error("Stripe customer Id is missing");
 }
-type PLAN = "FREE" | "PRO";
 
 export async function getSubscriptionInformations(userId: string | undefined) {
   if (!userId) {

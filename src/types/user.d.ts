@@ -1,4 +1,4 @@
-type PLAN = "FREE" | "PRO";
+export type PLAN = "FREE" | "PRO";
 
 export type User = {
   id: string;
