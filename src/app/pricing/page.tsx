@@ -15,7 +15,7 @@ const planItems = [
     description: "For hobby",
     price: 0,
     features: {
-      uploadLimit: "2",
+      uploadLimit: "1",
       fileSizeLimit: "4MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: false,
