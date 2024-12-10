@@ -78,10 +78,11 @@ const ManageSubscription = () => {
         <CardHeader>
           <CardTitle>Subscription plan</CardTitle>
           <CardDescription>
-            You are currently on{" "}
+            You are currently on
             <span className="font-bold">
-              {subscriptionInformations?.isSubscribed ? "PRO" : "FREE"}
+              {subscriptionInformations?.isSubscribed ? " PRO " : " FREE "}
             </span>
+            plan
           </CardDescription>
         </CardHeader>
         {subscriptionInformations?.stripeCurrentPeriodEnd &&
