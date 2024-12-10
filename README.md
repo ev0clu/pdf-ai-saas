@@ -1,8 +1,6 @@
 # **PDF AI SaaS App**
 
-A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI, LangChain, Stripe and more. The app allows users to upload any PDF document and search for specific information inside this document. Only authenticated users can use the platform. There are 2 options: Free plan with limited usage and Pro plan to give more features into the user.
-
-### Demo: [Link]()
+A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI, LangChain, Stripe and more. The app allows users to upload any PDF document with size limit based on the subscription plan and search for specific information inside this document. Only authenticated users can use the platform. There are 2 options: Free plan with limited usage and Pro plan to give more features into the user.
 
 ## Features
 
@@ -11,7 +9,7 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 - Intuitive Drag n&apos; Drop Uploads
 - PDF Viewer to see the uploaded PDF document
 - 100% written in TypeScript
-- OpeanAI text embedding model has been used
+- OpeanAI text embedding model has been used to embedding the pdf file and gpt-4o to chat with the document
 - LangChain use to integrate LLM into the app
 - Pinecone Vector Database has been used to store embeds data into vector space
 - MongoDB NoSQL Database has been used to store user, document and chat informations
@@ -30,7 +28,8 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 5. Create stripe account and get keys [link](https://dashboard.stripe.com/test/apikeys).
 6. Add stripe webhook endpoint [link](https://dashboard.stripe.com/test/webhooks).
 7. Activate stripe billing portal [link](https://dashboard.stripe.com/test/settings/billing/portal).
-8. Add environment variables into the .env file:<br>
+8. Create pinecone index [link](https://www.pinecone.io/).
+9. Add environment variables into the .env file:<br>
    `AUTH_SECRET="<YOUR-SECRET>"`<br>
    `AUTH_GOOGLE_ID="<YOUR-GOOGLE-ID>"`<br>
    `AUTH_GOOGLE_SECRET="<YOUR-GOOGLE-SECRET>"`<br>
@@ -41,12 +40,11 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
    `STRIPE_SECRET_KEY="<YOUR-STRIPE-SECRET-TOKEN>"`<br>
    `STRIPE_WEBHOOK_SECRET="<YOUR-STRIPE-WEBHOOK-SECRET-TOKEN>"`<br>
    `STRIPE_PRODUCT_PRICE_ID="<YOUR-STRIPE-PRO-PLAN-PRICE-ID>"`<br>
-9. Create new product with features on stripe: [link](https://docs.stripe.com/billing/quickstart)
-
-10. Run `npm run prisma:generate` in order to apply prisma schema
-11. Run `npm run prisma:push` to push db to MongoDB
-12. Run `npm run dev` command in your terminal
-13. Server running at `http://localhost:3000/`
+10. Create new product with features on stripe: [link](https://docs.stripe.com/billing/quickstart)
+11. Run `npm run prisma:generate` in order to apply prisma schema
+12. Run `npm run prisma:push` to push db to MongoDB
+13. Run `npm run dev` command in your terminal
+14. Server running at `http://localhost:3000/`
 
 ### Useful links and informations
 
@@ -70,16 +68,27 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 
 ### Dependencies
 
+- [Next.js](https://nextjs.org/)
 - [React](https://react.dev/)
 - [React DOM](https://www.npmjs.com/package/react-dom)
-- [Lucide Icons](https://lucide.dev/)
 - [Typescript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
 - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview)
+- [Lucide Icons](https://lucide.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Shadcn UI]()
+- [React Dropzone](https://www.npmjs.com/package/react-dropzone)
+- [React PDF](https://www.npmjs.com/package/react-pdf)
+- [Sonner](https://sonner.emilkowal.ski/)
+- [date-fns](https://www.npmjs.com/package/date-fns)
 - [Sharp Image optimalization](https://www.npmjs.com/package/sharp)
-- [Next.js](https://nextjs.org/)
 - [Auth.js](https://authjs.dev/)
+- [Prisma](https://www.prisma.io/)
+- [Langchain](https://js.langchain.com/docs/introduction/)
+- [Pinecone](https://www.pinecone.io/)
+- [Uploadthing](https://docs.uploadthing.com/)
+- [pdf-parse](https://www.npmjs.com/package/pdf-parse)
+- [Stripe](https://docs.stripe.com/)
 
 ### Layout
 
-![layout-1 picture](https://github.com/ev0clu/pdf-ai-saas/blob/main/layout-1.png?raw=true)<br>
+![layout-1 picture](https://github.com/ev0clu/pdf-ai-saas/blob/main/public/quiri-pdf.png?raw=true)<br>
