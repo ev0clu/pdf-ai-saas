@@ -35,6 +35,7 @@ export default async function RootLayout({
   const subscriptionInformations = await getSubscriptionInformations(
     session?.user.id,
   );
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body

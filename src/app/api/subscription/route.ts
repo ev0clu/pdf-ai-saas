@@ -62,7 +62,6 @@ export async function POST(req: NextRequest) {
       { status: 503 },
     );
   } catch (error) {
-    console.log({ error });
     return NextResponse.json(
       {
         message: error,
