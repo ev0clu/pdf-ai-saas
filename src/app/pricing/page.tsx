@@ -4,7 +4,11 @@ import { cn } from "@/lib/utils";
 import PlanFeature from "@/app/pricing/_components/PlanFeature";
 import SignInButton from "@/components/SignInButton";
 import ContainerWrapper from "@/components/ContainerWrapper";
-import { PRO_PLAN } from "@/constants/plan";
+import {
+  FREE_PLAN_UPLOAD_LIMIT,
+  PRO_PLAN,
+  PRO_PLAN_UPLOAD_LIMIT,
+} from "@/constants/plan";
 import { auth } from "@/auth";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
@@ -15,7 +19,7 @@ const planItems = [
     description: "For hobby",
     price: 0,
     features: {
-      uploadLimit: "1",
+      uploadLimit: FREE_PLAN_UPLOAD_LIMIT.toString(),
       fileSizeLimit: "4MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: false,
@@ -27,7 +31,7 @@ const planItems = [
     description: "For professional",
     price: PRO_PLAN,
     features: {
-      uploadLimit: "30",
+      uploadLimit: PRO_PLAN_UPLOAD_LIMIT.toString(),
       fileSizeLimit: "16MB",
       supportedDevice: "Desktop and Mobile are supported",
       customerSuppport: true,
