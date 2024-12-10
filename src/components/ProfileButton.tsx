@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -9,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CircleUserRound, Sparkles } from "lucide-react";
 import SignOutButton from "./SignOutButton";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 
@@ -26,9 +29,10 @@ const ProfileButton = ({
   profileImgSrc,
   plan,
 }: ProfileButtonProps) => {
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger>
           {profileImgSrc ? (
             <Image
@@ -65,6 +69,7 @@ const ProfileButton = ({
             <Link
               className={cn(buttonVariants({ variant: "ghost" }), "w-full")}
               href="/subscription"
+              onClick={() => setOpen(false)}
             >
               Manage Subscription
             </Link>
