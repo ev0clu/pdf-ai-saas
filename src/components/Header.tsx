@@ -1,6 +1,7 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "@/auth";
 import logoSrc from "../../public/logo.png";
 import { CircleUserRound, Menu as MenuIcon, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,9 +17,11 @@ import {
 import SignInButton from "./SignInButton";
 import ProfileButton from "./ProfileButton";
 import SignOutButton from "./SignOutButton";
+import { useAppContext } from "./AppContext";
 
-const Header = async () => {
-  const session = await auth();
+const Header = () => {
+  const { subscriptionInformations, authSession } = useAppContext();
+
   return (
     <header className="sticky top-0 z-50 flex flex-row items-center justify-between border-b border-stone-200 bg-white px-2 py-4 backdrop-blur-lg md:px-20">
       <Link
@@ -43,7 +46,7 @@ const Header = async () => {
           </Link>
         </li>
         <li>
-          {session && (
+          {authSession && (
             <Link
               href="/dashboard"
               className={cn(
@@ -56,7 +59,7 @@ const Header = async () => {
           )}
         </li>
         <li>
-          {!session ? (
+          {!authSession ? (
             <SignInButton
               variant={"default"}
               provider="google"
@@ -64,10 +67,10 @@ const Header = async () => {
             />
           ) : (
             <ProfileButton
-              profileImgSrc={session.user?.image}
-              name={session.user?.name}
-              email={session.user?.email}
-              plan={session.user.plan}
+              profileImgSrc={authSession.user?.image}
+              name={authSession.user?.name}
+              email={authSession.user?.email}
+              plan={subscriptionInformations?.plan}
             />
           )}
         </li>
@@ -88,13 +91,13 @@ const Header = async () => {
         <SheetDescription className="sr-only"></SheetDescription>
         <SheetContent side={"right"} className="px-8 py-3">
           {/* Profile informaiton */}
-          {session && (
+          {authSession && (
             <>
               <div className="mt-10 flex w-full flex-row items-center gap-3">
-                {session.user?.image ? (
+                {authSession.user?.image ? (
                   <span className="h-[35px] w-[35px]">
                     <Image
-                      src={session.user.image}
+                      src={authSession.user.image}
                       alt="Google profile image"
                       width={35}
                       height={35}
@@ -109,19 +112,19 @@ const Header = async () => {
                 )}
                 <div>
                   <div className="text-sm font-semibold text-muted-foreground">
-                    {session.user?.name}
+                    {authSession.user?.name}
                   </div>
                   <div className="text-sm font-normal text-muted-foreground">
-                    {session.user?.email}
+                    {authSession.user?.email}
                   </div>
                 </div>
               </div>
               <div className="mt-2 text-center text-sm font-normal text-muted-foreground">
                 <span>
-                  {session.user.plan === "FREE" ? "Free" : "Pro"} Plan
+                  {subscriptionInformations?.isSubscribed ? "PRO" : "FREE"} Plan
                 </span>
                 <span>
-                  {session.user.plan === "PRO" && (
+                  {subscriptionInformations?.isSubscribed && (
                     <Sparkles className="h-5 w-5 text-yellow-500" />
                   )}
                 </span>
@@ -134,7 +137,7 @@ const Header = async () => {
           <ul className="mt-5 space-y-5 text-lg">
             <li>
               <SheetClose asChild>
-                {session && (
+                {authSession && (
                   <Link
                     href="/dashboard"
                     className={cn(
@@ -175,7 +178,7 @@ const Header = async () => {
             </li>
             <li>
               <SheetClose asChild>
-                {!session ? (
+                {!authSession ? (
                   <SignInButton
                     variant={"default"}
                     provider="google"
