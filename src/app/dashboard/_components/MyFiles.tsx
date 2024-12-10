@@ -1,10 +1,10 @@
 "use client";
 
-import { Loader } from "@/components/Loader";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { AllDocumentsResponse } from "@/types/document";
-import type { Document as PdfDocument } from "@/types/document";
+import { useState } from "react";
+import Link from "next/link";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { Loader } from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
@@ -23,34 +23,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { useState } from "react";
-import Link from "next/link";
+import type { Document as PdfDocument } from "@/types/document";
 
 let toastId: string | number | undefined = undefined;
 
-const MyFiles = () => {
+interface MyFilesProps {
+  documents: PdfDocument[] | [] | undefined;
+  isPending: boolean;
+  error: Error | null;
+}
+const MyFiles = ({ documents, isPending, error }: MyFilesProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
-
-  const {
-    data: documents,
-    isPending,
-    error,
-  } = useQuery({
-    queryKey: ["myFiles"],
-    queryFn: async (): Promise<PdfDocument[] | []> => {
-      const response = await fetch("/api/file", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = (await response.json()) as AllDocumentsResponse;
-
-      return result.documents;
-    },
-  });
 
   const mutation = useMutation({
     mutationFn: (fileId: string) =>

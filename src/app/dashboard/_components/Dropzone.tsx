@@ -3,10 +3,11 @@
 import { useUploadThing } from "@/lib/uploadthing-client";
 import { useRouter } from "next/navigation";
 import { CloudUpload, File, Plus } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import { useAppContext } from "@/components/AppContext";
 import { useDropzone } from "react-dropzone";
 import type { FileRejection } from "react-dropzone";
+import { ErrorCode } from "react-dropzone";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -18,15 +19,25 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  FREE_PLAN_UPLOAD_LIMIT,
+  PRO_PLAN_UPLOAD_LIMIT,
+} from "@/constants/plan";
 
 let toastId: string | number | undefined = undefined;
 
-const Dropzone = () => {
-  const { data: session } = useSession();
+interface DropzoneProps {
+  documentsLength: number | undefined;
+}
+
+const Dropzone = ({ documentsLength }: DropzoneProps) => {
+  const { authSession } = useAppContext();
   const router = useRouter();
 
   const { startUpload, isUploading } = useUploadThing(
-    session?.user.plan === "FREE" ? "freePlanPdfUpload" : "proPlanPdfUpload",
+    authSession?.user.plan === "FREE"
+      ? "freePlanPdfUpload"
+      : "proPlanPdfUpload",
     {
       onClientUploadComplete: (res) => {
         toast.dismiss(toastId);
@@ -41,22 +52,46 @@ const Dropzone = () => {
     },
   );
 
-  const onDropRejected = useCallback((rejectedFiles: FileRejection[]) => {
-    toast.error(
-      `${rejectedFiles[0].file.type.split("/")[1].toUpperCase()} does not supported`,
-    );
-  }, []);
+  const onDropRejected = (rejectedFiles: FileRejection[]) => {
+    const errorCode = rejectedFiles[0].errors[0].code as ErrorCode;
+    let reason = "";
+
+    if (errorCode === ErrorCode.FileInvalidType) {
+      reason = `*.${rejectedFiles[0].file.type.split("/")[0]} does not supported`;
+    } else if (errorCode === ErrorCode.FileTooLarge) {
+      reason = `${authSession?.user.plan} plan does not support ${Math.floor(rejectedFiles[0].file.size / 1_000_000)}MB file size`;
+    }
+
+    toast.error(reason);
+  };
 
   const onDropAccepted = useCallback(
     (files: File[]) => {
-      startUpload(files);
+      if (
+        (authSession?.user.plan === "FREE" &&
+          documentsLength !== undefined &&
+          documentsLength < 1) ||
+        (authSession?.user.plan === "PRO" &&
+          documentsLength !== undefined &&
+          documentsLength < 30)
+      ) {
+        startUpload(files);
+      } else {
+        const reason = `${authSession?.user.plan} plan does not support more than ${authSession?.user.plan === "FREE" ? FREE_PLAN_UPLOAD_LIMIT : PRO_PLAN_UPLOAD_LIMIT} file(s)`;
+        toast.error(reason);
+      }
     },
-    [startUpload],
+    [startUpload, documentsLength, authSession?.user.plan],
   );
 
   const onError = (error: Error) => {
     toast.error(error.message);
   };
+
+  const pdfSize = useMemo(
+    () => (authSession?.user.plan === "FREE" ? 4 * 1_000_000 : 16 * 1_000_000),
+    [authSession],
+  );
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({
@@ -64,6 +99,7 @@ const Dropzone = () => {
       onError,
       onDropAccepted,
       accept: { "application/pdf": [".pdf"] },
+      maxSize: pdfSize,
       multiple: false,
     });
 
