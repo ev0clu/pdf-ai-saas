@@ -119,7 +119,7 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-2 text-center text-sm font-normal text-muted-foreground">
+              <div className="mt-2 flex flex-row justify-center gap-2 text-sm font-normal text-muted-foreground">
                 <span>
                   {subscriptionInformations?.isSubscribed ? "PRO" : "FREE"} Plan
                 </span>
