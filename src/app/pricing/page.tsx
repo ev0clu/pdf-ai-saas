@@ -73,7 +73,7 @@ const Pricing = async () => {
                 <PlanFeature
                   isAccess={true}
                   value={item.features.uploadLimit}
-                  text="PDF upload limit/month"
+                  text="PDF upload limit"
                 />
                 <PlanFeature
                   isAccess={true}
