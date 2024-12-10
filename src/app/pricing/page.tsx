@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { cn } from "@/lib/utils";
 import PlanFeature from "@/app/pricing/_components/PlanFeature";
@@ -9,9 +9,9 @@ import {
   PRO_PLAN,
   PRO_PLAN_UPLOAD_LIMIT,
 } from "@/constants/plan";
-import { auth } from "@/auth";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { useAppContext } from "@/components/AppContext";
 
 const planItems = [
   {
@@ -40,8 +40,8 @@ const planItems = [
   },
 ];
 
-const Pricing = async () => {
-  const session = await auth();
+const Pricing = () => {
+  const { authSession } = useAppContext();
 
   return (
     <ContainerWrapper>
@@ -97,7 +97,7 @@ const Pricing = async () => {
                   text="Customer support"
                 />
                 <div className="!mt-5 w-full">
-                  {!session?.user && (
+                  {!authSession?.user && (
                     <SignInButton
                       variant={"outline"}
                       provider="google"
@@ -105,7 +105,7 @@ const Pricing = async () => {
                       className="w-full"
                     />
                   )}
-                  {session?.user && item.plan === "Pro" && (
+                  {authSession?.user && item.plan === "Pro" && (
                     <Link
                       className={cn(
                         buttonVariants({ variant: "default" }),
