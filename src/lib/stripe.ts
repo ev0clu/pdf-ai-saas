@@ -61,10 +61,19 @@ export async function billingPortalStripeSession(stripeCustomerId: string) {
     return session;
   } else throw new Error("Stripe customer Id is missing");
 }
+type PLAN = "FREE" | "PRO";
 
 export async function getSubscriptionInformations(userId: string | undefined) {
   if (!userId) {
-    return null;
+    return {
+      userId: "",
+      plan: "FREE" as PLAN,
+      isSubscribed: false,
+      isCanceled: false,
+      stripeCustomerId: "",
+      stripeSubscriptionId: "",
+      stripeCurrentPeriodEnd: "",
+    };
   }
 
   const user = await prisma.user.findUnique({
@@ -72,7 +81,15 @@ export async function getSubscriptionInformations(userId: string | undefined) {
   });
 
   if (!user || !user.stripeSubscriptionId) {
-    return null;
+    return {
+      userId: userId ?? "",
+      plan: "FREE" as PLAN,
+      isSubscribed: false,
+      isCanceled: false,
+      stripeCustomerId: "",
+      stripeSubscriptionId: "",
+      stripeCurrentPeriodEnd: "",
+    };
   }
 
   const isSubscribed = Boolean(
@@ -86,7 +103,7 @@ export async function getSubscriptionInformations(userId: string | undefined) {
 
   return {
     userId: userId,
-    plan: user?.plan,
+    plan: user?.plan as PLAN,
     isSubscribed: isSubscribed,
     isCanceled: stripePlan.cancel_at_period_end,
     stripeCustomerId: user?.stripeCustomerId,
