@@ -1,7 +1,6 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@/auth";
 import logoSrc from "../../public/logo.png";
 import { CircleUserRound, Menu as MenuIcon, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,10 +16,13 @@ import {
 import SignInButton from "./SignInButton";
 import ProfileButton from "./ProfileButton";
 import SignOutButton from "./SignOutButton";
-import { useAppContext } from "./AppContext";
+import { getSubscriptionInformations } from "@/lib/stripe";
 
-const Header = () => {
-  const { subscriptionInformations, authSession } = useAppContext();
+const Header = async () => {
+  const session = await auth();
+  const subscriptionInformations = await getSubscriptionInformations(
+    session?.user.id,
+  );
 
   return (
     <header className="sticky top-0 z-50 flex flex-row items-center justify-between border-b border-stone-200 bg-white px-2 py-4 backdrop-blur-lg md:px-20">
@@ -46,7 +48,7 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          {authSession && (
+          {session && (
             <Link
               href="/dashboard"
               className={cn(
@@ -59,7 +61,7 @@ const Header = () => {
           )}
         </li>
         <li>
-          {!authSession ? (
+          {!session ? (
             <SignInButton
               variant={"default"}
               provider="google"
@@ -67,9 +69,9 @@ const Header = () => {
             />
           ) : (
             <ProfileButton
-              profileImgSrc={authSession.user?.image}
-              name={authSession.user?.name}
-              email={authSession.user?.email}
+              profileImgSrc={session.user?.image}
+              name={session.user?.name}
+              email={session.user?.email}
               plan={subscriptionInformations?.plan}
             />
           )}
@@ -91,13 +93,13 @@ const Header = () => {
         <SheetDescription className="sr-only"></SheetDescription>
         <SheetContent side={"right"} className="px-8 py-3">
           {/* Profile informaiton */}
-          {authSession && (
+          {session && (
             <>
               <div className="mt-10 flex w-full flex-row items-center gap-3">
-                {authSession.user?.image ? (
+                {session.user?.image ? (
                   <span className="h-[35px] w-[35px]">
                     <Image
-                      src={authSession.user.image}
+                      src={session.user.image}
                       alt="Google profile image"
                       width={35}
                       height={35}
@@ -112,10 +114,10 @@ const Header = () => {
                 )}
                 <div>
                   <div className="text-sm font-semibold text-muted-foreground">
-                    {authSession.user?.name}
+                    {session.user?.name}
                   </div>
                   <div className="text-sm font-normal text-muted-foreground">
-                    {authSession.user?.email}
+                    {session.user?.email}
                   </div>
                 </div>
               </div>
@@ -137,7 +139,7 @@ const Header = () => {
           <ul className="mt-5 space-y-5 text-lg">
             <li>
               <SheetClose asChild>
-                {authSession && (
+                {session && (
                   <Link
                     href="/dashboard"
                     className={cn(
@@ -178,7 +180,7 @@ const Header = () => {
             </li>
             <li>
               <SheetClose asChild>
-                {!authSession ? (
+                {!session ? (
                   <SignInButton
                     variant={"default"}
                     provider="google"
