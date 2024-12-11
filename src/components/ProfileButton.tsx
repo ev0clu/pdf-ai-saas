@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -29,10 +26,9 @@ const ProfileButton = ({
   profileImgSrc,
   plan,
 }: ProfileButtonProps) => {
-  const [open, setOpen] = useState(false);
   return (
     <>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu>
         <DropdownMenuTrigger>
           {profileImgSrc ? (
             <Image
@@ -69,7 +65,6 @@ const ProfileButton = ({
             <Link
               className={cn(buttonVariants({ variant: "ghost" }), "w-full")}
               href="/subscription"
-              onClick={() => setOpen(false)}
             >
               Manage Subscription
             </Link>
