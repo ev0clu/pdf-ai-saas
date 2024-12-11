@@ -3,7 +3,31 @@ import { prisma } from "../../../../prisma/prisma";
 import {
   subscriptionStripeSession,
   billingPortalStripeSession,
+  getSubscriptionInformations,
 } from "@/lib/stripe";
+import { auth } from "@/auth";
+
+export async function GET() {
+  try {
+    const session = await auth();
+    const subscriptionInformations = await getSubscriptionInformations(
+      session?.user.id,
+    );
+    return NextResponse.json(
+      {
+        message: { subscriptionInformations: subscriptionInformations },
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: error,
+      },
+      { status: 500 },
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
