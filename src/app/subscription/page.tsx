@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import type { SubscriptionSessionResponse } from "@/types/stripe";
 import { toast } from "sonner";
@@ -16,16 +16,45 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import ContainerWrapper from "@/components/ContainerWrapper";
-import { useAppContext } from "@/components/AppContext";
+import type { getSubscriptionInformations } from "@/lib/stripe";
+import { Loader } from "@/components/Loader";
 
 const ManageSubscription = () => {
-  const { subscriptionInformations } = useAppContext();
-
+  const queryClient = useQueryClient();
   const [mount, setMount] = useState(false);
 
   const searchParams = useSearchParams();
   const searchSuccess = searchParams.get("success");
   const searchCanceled = searchParams.get("canceled");
+
+  const {
+    data: subscriptionInformations,
+    isPending,
+    error,
+  } = useQuery({
+    queryKey: ["subscritpion-informations"],
+    queryFn: async (): Promise<
+      Awaited<ReturnType<typeof getSubscriptionInformations>>
+    > => {
+      const response = await fetch("/api/subscription", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = (await response.json()) as {
+        message: {
+          subscriptionInformations: ReturnType<
+            typeof getSubscriptionInformations
+          >;
+        };
+        status: number | undefined;
+      };
+
+      return result.message.subscriptionInformations;
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -54,6 +83,12 @@ const ManageSubscription = () => {
         }
       }
     },
+    onSuccess: async () => {
+      // Invalidate and refetch
+      await queryClient.invalidateQueries({
+        queryKey: ["subscritpion-informations"],
+      });
+    },
   });
 
   useEffect(() => {
@@ -71,6 +106,9 @@ const ManageSubscription = () => {
       }
     }
   }, [mount, searchCanceled, searchSuccess]);
+
+  if (isPending) return <Loader size="default" />;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <ContainerWrapper className="items-center">
