@@ -2,6 +2,8 @@
 
 A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI, LangChain, Stripe and more. The app allows users to upload any PDF document with size limit based on the subscription plan and search for specific information inside this document. Only authenticated users can use the platform. There are 2 options: Free plan with limited usage and Pro plan to give more features into the user.
 
+### Demo video: [Link](https://www.youtube.com/watch?v=cYNyzFaP39A)
+
 ## Features
 
 - Allow user to log in to the platform
