@@ -85,6 +85,8 @@ A PDF AI SaaS full stack app has built with Next.js framework, Shadcn UI, OpenAI
 - [Sharp Image optimalization](https://www.npmjs.com/package/sharp)
 - [Auth.js](https://authjs.dev/)
 - [Prisma](https://www.prisma.io/)
+- [MongoDB](https://www.mongodb.com/)
+- [OpenAI API](https://openai.com/api/)
 - [Langchain](https://js.langchain.com/docs/introduction/)
 - [Pinecone](https://www.pinecone.io/)
 - [Uploadthing](https://docs.uploadthing.com/)
